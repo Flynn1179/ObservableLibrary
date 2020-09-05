@@ -20,12 +20,12 @@ namespace Flynn1179.Observable
         /// <summary>
         /// Occurs before a property of this object changes.
         /// </summary>
-        public event PropertyChangingEventHandler PropertyChanging;
+        public event PropertyChangingEventHandler? PropertyChanging;
 
         /// <summary>
         /// Occurs after a property of this object changes.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Default implementation of the OnPropertyChanging method that just raises the event.
@@ -54,7 +54,7 @@ namespace Flynn1179.Observable
         /// <param name="value">The new value of the field.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, null, null, propertyName);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Flynn1179.Observable
         /// <param name="onChange">An action to be invoked after the property has changed value.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, Action onChange, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, Action onChange, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, onChange, null, null, propertyName);
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, Action<string> onChangeWithPrevious, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, Action<string> onChangeWithPrevious, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, onChangeWithPrevious, null, propertyName);
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, Func<string, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, Func<string, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, null, validate, propertyName);
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, Action onChange, Func<string, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, Action onChange, Func<string, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, onChange, null, validate, propertyName);
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        protected bool Set(ref string field, string value, Action<string> onChangeWithPrevious, Func<string, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set(ref string field, string value, Action<string> onChangeWithPrevious, Func<string, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, onChangeWithPrevious, validate, propertyName);
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Flynn1179.Observable
         /// <param name="value">The new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, null, null, propertyName);
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Flynn1179.Observable
         /// <param name="onChange">An action to be invoked after the property has changed value.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, onChange, null, null, propertyName);
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, onChangeWithPrevious, null, propertyName);
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, null, validate, propertyName);
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, onChange, null, validate, propertyName);
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             => this.Set(ref field, value, null, onChangeWithPrevious, validate, propertyName);
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, null, null, null, changeHandler, propertyName);
 
@@ -218,7 +218,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, onChange, null, null, changeHandler, propertyName);
 
@@ -233,7 +233,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, null, onChangeWithPrevious, null, changeHandler, propertyName);
 
@@ -248,7 +248,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, null, null, validate, changeHandler, propertyName);
 
@@ -264,7 +264,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, onChange, null, validate, changeHandler, propertyName);
 
@@ -280,7 +280,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
             => this.Set(ref field, value, null, onChangeWithPrevious, validate, changeHandler, propertyName);
 
@@ -295,9 +295,9 @@ namespace Flynn1179.Observable
         /// <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
-            => this.Set(ref field, value, disposePrevious, null, (Action<TProp>)null, null, propertyName);
+            => this.Set(ref field, value, disposePrevious, null, (Action<TProp>?)null, null, propertyName);
 
         /// <summary>
         /// Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
@@ -311,9 +311,9 @@ namespace Flynn1179.Observable
         /// <param name="onChange">An action to be invoked after the property has changed value.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
-            => this.Set(ref field, value, disposePrevious, onChange, (Action<TProp>)null, null, propertyName);
+            => this.Set(ref field, value, disposePrevious, onChange, (Action<TProp>?)null, null, propertyName);
 
         /// <summary>
         /// Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
@@ -327,7 +327,7 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, onChangeWithPrevious, null, propertyName);
 
@@ -343,7 +343,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, null, validate, propertyName);
 
@@ -360,7 +360,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, onChange, null, validate, propertyName);
 
@@ -377,7 +377,7 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, onChangeWithPrevious, validate, propertyName);
 
@@ -393,7 +393,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, null, null, changeHandler, propertyName);
 
@@ -410,7 +410,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, onChange, null, null, changeHandler, propertyName);
 
@@ -427,7 +427,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, onChangeWithPrevious, null, changeHandler, propertyName);
 
@@ -444,7 +444,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, null, validate, changeHandler, propertyName);
 
@@ -462,7 +462,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler? changeHandler = null, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, onChange, null, validate, changeHandler, propertyName);
 
@@ -480,7 +480,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler? changeHandler = null, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, onChangeWithPrevious, validate, changeHandler, propertyName);
 
@@ -494,7 +494,7 @@ namespace Flynn1179.Observable
         /// <param name="max">The maximum permitted value for the property.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, [CallerMemberName] string propertyName = "")
             where TProp : IComparable
             => this.Set(ref field, value, min, max, null, null, propertyName);
 
@@ -509,7 +509,7 @@ namespace Flynn1179.Observable
         /// <param name="onChange">An action to be invoked after the property has changed value.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action onChange = null, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action? onChange = null, [CallerMemberName] string propertyName = "")
             where TProp : IComparable
             => this.Set(ref field, value, min, max, onChange, null, propertyName);
 
@@ -524,7 +524,7 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action<TProp> onChangeWithPrevious = null, [CallerMemberName] string propertyName = null)
+        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action<TProp>? onChangeWithPrevious = null, [CallerMemberName] string propertyName = "")
             where TProp : IComparable
             => this.Set(ref field, value, min, max, null, onChangeWithPrevious, propertyName);
 
@@ -543,10 +543,10 @@ namespace Flynn1179.Observable
         private bool Set(
             ref string field,
             string value,
-            Action onChange = null,
-            Action<string> onChangeWithPrevious = null,
-            Func<string, string> validate = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<string>? onChangeWithPrevious = null,
+            Func<string, string>? validate = null,
+            [CallerMemberName] string propertyName = "")
         {
             propertyName.ThrowIfNull(nameof(propertyName));
             this.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -594,10 +594,10 @@ namespace Flynn1179.Observable
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
-            Action onChange = null,
-            Action<TProp> onChangeWithPrevious = null,
-            Func<TProp, string> validate = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<TProp>? onChangeWithPrevious = null,
+            Func<TProp, string>? validate = null,
+            [CallerMemberName] string propertyName = "")
         {
             propertyName.ThrowIfNull(nameof(propertyName));
             this.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -646,11 +646,11 @@ namespace Flynn1179.Observable
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
-            Action onChange = null,
-            Action<TProp> onChangeWithPrevious = null,
-            Func<TProp, string> validate = null,
-            PropertyChangedEventHandler changeHandler = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<TProp>? onChangeWithPrevious = null,
+            Func<TProp, string>? validate = null,
+            PropertyChangedEventHandler? changeHandler = null,
+            [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
         {
             propertyName.ThrowIfNull(nameof(propertyName));
@@ -712,10 +712,10 @@ namespace Flynn1179.Observable
             ref TProp field,
             TProp value,
             bool disposePrevious,
-            Action onChange = null,
-            Action<TProp> onChangeWithPrevious = null,
-            Func<TProp, string> validate = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<TProp>? onChangeWithPrevious = null,
+            Func<TProp, string>? validate = null,
+            [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
         {
             propertyName.ThrowIfNull(nameof(propertyName));
@@ -773,11 +773,11 @@ namespace Flynn1179.Observable
             ref TProp field,
             TProp value,
             bool disposePrevious,
-            Action onChange = null,
-            Action<TProp> onChangeWithPrevious = null,
-            Func<TProp, string> validate = null,
-            PropertyChangedEventHandler changeHandler = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<TProp>? onChangeWithPrevious = null,
+            Func<TProp, string>? validate = null,
+            PropertyChangedEventHandler? changeHandler = null,
+            [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
         {
             propertyName.ThrowIfNull(nameof(propertyName));
@@ -843,9 +843,9 @@ namespace Flynn1179.Observable
             TProp value,
             TProp min,
             TProp max,
-            Action onChange = null,
-            Action<TProp> onChangeWithPrevious = null,
-            [CallerMemberName] string propertyName = null)
+            Action? onChange = null,
+            Action<TProp>? onChangeWithPrevious = null,
+            [CallerMemberName] string propertyName = "")
             where TProp : IComparable
         {
             propertyName.ThrowIfNull(nameof(propertyName));

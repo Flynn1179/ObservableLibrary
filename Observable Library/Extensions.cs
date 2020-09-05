@@ -25,21 +25,21 @@ namespace Flynn1179.Observable
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this EventHandler handler, object sender, EventArgs e)
+        public static void SafeRaise(this EventHandler? handler, object sender, EventArgs e)
         {
             if (handler is null)
             {
                 return;
             }
 
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -67,21 +67,21 @@ namespace Flynn1179.Observable
         /// <typeparam name="T">The type of the event arguments for the event.</typeparam>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise<T>(this EventHandler<T> handler, object sender, T e)
+        public static void SafeRaise<T>(this EventHandler<T>? handler, object sender, T e)
         {
             if (handler is null)
             {
                 return;
             }
 
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -116,7 +116,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             sender.SynchronizationContext.Post(
                 state =>
                 {
@@ -126,7 +126,7 @@ namespace Flynn1179.Observable
                         {
                             del.DynamicInvoke(sender, e);
                         }
-                        catch (TargetInvocationException ex)
+                        catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                         {
                             if (raisedExceptions is null)
                             {
@@ -157,7 +157,7 @@ namespace Flynn1179.Observable
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         /// <remarks>For static events, the type raising the event is not passed in to this function, so no check can be performed on whether or not the class raising the event has the static property.</remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string propertyName)
+        public static void SafeRaise(this PropertyChangedEventHandler? handler, INotifyPropertyChanged sender, string propertyName)
         {
             propertyName.ThrowIfNullOrEmpty(nameof(propertyName));
             sender?.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -168,14 +168,14 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -215,14 +215,14 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (PropertyChangedEventHandler del in handlers)
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -250,7 +250,7 @@ namespace Flynn1179.Observable
         /// <exception cref="ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this PropertyChangingEventHandler handler, INotifyPropertyChanging sender, string propertyName)
+        public static void SafeRaise(this PropertyChangingEventHandler? handler, INotifyPropertyChanging sender, string propertyName)
         {
             propertyName.ThrowIfNullOrEmpty(nameof(propertyName));
             sender?.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -261,14 +261,14 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -307,14 +307,14 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
-            List<Exception> raisedExceptions = null;
+            List<Exception>? raisedExceptions = null;
             foreach (PropertyChangingEventHandler del in handlers)
             {
                 try
                 {
                     del.DynamicInvoke(sender, e);
                 }
-                catch (TargetInvocationException ex)
+                catch (TargetInvocationException ex) when (ex.InnerException is Exception)
                 {
                     if (raisedExceptions is null)
                     {
@@ -324,6 +324,58 @@ namespace Flynn1179.Observable
                     raisedExceptions.Add(ex.InnerException);
                 }
             }
+
+            // Check list of exceptions is either still null, or not empty.
+            Debug.Assert(raisedExceptions is null || raisedExceptions.Any(), "Empty list of exceptions after handling event.");
+            if (raisedExceptions is List<Exception>)
+            {
+                throw new AggregateException(Properties.Resources.SafeRaiseExceptionMessage, raisedExceptions);
+            }
+        }
+
+        /// <summary>
+        /// Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+        /// </summary>
+        /// <param name="handler">The event to raise.</param>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">Event arguments for the event.</param>
+        /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
+        public static void SafeRaise(this Delegate? handler, ISynchronizedObject sender, EventArgs e)
+        {
+            if (handler is null)
+            {
+                return;
+            }
+
+            if (handler.Method.GetParameters() is ParameterInfo[] handlerParams && (handlerParams.Length != 2
+                || !handlerParams[0].ParameterType.IsAssignableFrom(sender.GetType())
+                || !handlerParams[1].ParameterType.IsAssignableFrom(e.GetType())))
+            {
+                throw new ArgumentException("Sender and event args must match handler parameter types.");
+            }
+
+            List<Exception>? raisedExceptions = null;
+            sender.SynchronizationContext.Post(
+                state =>
+                {
+                    foreach (Delegate del in handler.GetInvocationList())
+                    {
+                        try
+                        {
+                            del.DynamicInvoke(sender, e);
+                        }
+                        catch (TargetInvocationException ex) when (ex.InnerException is Exception)
+                        {
+                            if (raisedExceptions is null)
+                            {
+                                raisedExceptions = new List<Exception>();
+                            }
+
+                            raisedExceptions.Add(ex.InnerException);
+                        }
+                    }
+                }, null);
 
             // Check list of exceptions is either still null, or not empty.
             Debug.Assert(raisedExceptions is null || raisedExceptions.Any(), "Empty list of exceptions after handling event.");
