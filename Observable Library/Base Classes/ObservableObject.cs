@@ -20,12 +20,12 @@ namespace Flynn1179.Observable
         /// <summary>
         /// Occurs before a property of this object changes.
         /// </summary>
-        public event PropertyChangingEventHandler? PropertyChanging;
+        public event PropertyChangingEventHandler PropertyChanging;
 
         /// <summary>
         /// Occurs after a property of this object changes.
         /// </summary>
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Default implementation of the OnPropertyChanging method that just raises the event.
@@ -297,7 +297,7 @@ namespace Flynn1179.Observable
         /// <returns>True if the field was changed, false otherwise.</returns>
         protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
-            => this.Set(ref field, value, disposePrevious, null, (Action<TProp>?)null, null, propertyName);
+            => this.Set(ref field, value, disposePrevious, null, (Action<TProp>)null, null, propertyName);
 
         /// <summary>
         /// Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
@@ -313,7 +313,7 @@ namespace Flynn1179.Observable
         /// <returns>True if the field was changed, false otherwise.</returns>
         protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
-            => this.Set(ref field, value, disposePrevious, onChange, (Action<TProp>?)null, null, propertyName);
+            => this.Set(ref field, value, disposePrevious, onChange, (Action<TProp>)null, null, propertyName);
 
         /// <summary>
         /// Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
@@ -462,7 +462,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler? changeHandler = null, [CallerMemberName] string propertyName = "")
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, onChange, null, validate, changeHandler, propertyName);
 
@@ -480,7 +480,7 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler? changeHandler = null, [CallerMemberName] string propertyName = "")
+        protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
             => this.Set(ref field, value, disposePrevious, null, onChangeWithPrevious, validate, changeHandler, propertyName);
 
@@ -509,7 +509,7 @@ namespace Flynn1179.Observable
         /// <param name="onChange">An action to be invoked after the property has changed value.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action? onChange = null, [CallerMemberName] string propertyName = "")
+        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action onChange = null, [CallerMemberName] string propertyName = "")
             where TProp : IComparable
             => this.Set(ref field, value, min, max, onChange, null, propertyName);
 
@@ -524,7 +524,7 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action<TProp>? onChangeWithPrevious = null, [CallerMemberName] string propertyName = "")
+        protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action<TProp> onChangeWithPrevious = null, [CallerMemberName] string propertyName = "")
             where TProp : IComparable
             => this.Set(ref field, value, min, max, null, onChangeWithPrevious, propertyName);
 
@@ -538,14 +538,12 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that exposes this field.</param>
         /// <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Passing by reference is required here")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for, apparently")]
         private bool Set(
             ref string field,
             string value,
-            Action? onChange = null,
-            Action<string>? onChangeWithPrevious = null,
-            Func<string, string>? validate = null,
+            Action onChange = null,
+            Action<string> onChangeWithPrevious = null,
+            Func<string, string> validate = null,
             [CallerMemberName] string propertyName = "")
         {
             propertyName.ThrowIfNull(nameof(propertyName));
@@ -555,7 +553,7 @@ namespace Flynn1179.Observable
                 return false;
             }
 
-            if (!(validate is null) && validate(value) is string message)
+            if (validate is not null && validate(value) is string message)
             {
                 throw new ArgumentException(message);
             }
@@ -564,12 +562,12 @@ namespace Flynn1179.Observable
             this.OnPropertyChanging(propertyName);
             field = value;
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }
@@ -589,14 +587,12 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Modifying the reference is the point of this method, passing by ref is necessary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for")]
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
-            Action? onChange = null,
-            Action<TProp>? onChangeWithPrevious = null,
-            Func<TProp, string>? validate = null,
+            Action onChange = null,
+            Action<TProp> onChangeWithPrevious = null,
+            Func<TProp, string> validate = null,
             [CallerMemberName] string propertyName = "")
         {
             propertyName.ThrowIfNull(nameof(propertyName));
@@ -606,7 +602,7 @@ namespace Flynn1179.Observable
                 return false;
             }
 
-            if (!(validate is null) && validate(value) is string message)
+            if (validate is not null && validate(value) is string message)
             {
                 throw new ArgumentException(message);
             }
@@ -615,12 +611,12 @@ namespace Flynn1179.Observable
             this.OnPropertyChanging(propertyName);
             field = value;
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }
@@ -641,15 +637,13 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Modifying the reference is the point of this method, passing by ref is necessary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for")]
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
-            Action? onChange = null,
-            Action<TProp>? onChangeWithPrevious = null,
-            Func<TProp, string>? validate = null,
-            PropertyChangedEventHandler? changeHandler = null,
+            Action onChange = null,
+            Action<TProp> onChangeWithPrevious = null,
+            Func<TProp, string> validate = null,
+            PropertyChangedEventHandler changeHandler = null,
             [CallerMemberName] string propertyName = "")
             where TProp : INotifyPropertyChanged
         {
@@ -660,31 +654,31 @@ namespace Flynn1179.Observable
                 return false;
             }
 
-            if (!(validate is null) && validate(value) is string message)
+            if (validate is not null && validate(value) is string message)
             {
                 throw new ArgumentException(message);
             }
 
             TProp previous = field;
             this.OnPropertyChanging(propertyName);
-            if (!(changeHandler is null) && field is INotifyPropertyChanged oldObservable)
+            if (changeHandler is not null && field is INotifyPropertyChanged oldObservable)
             {
                 oldObservable.PropertyChanged -= changeHandler;
             }
 
             field = value;
-            if (!(changeHandler is null) && field is INotifyPropertyChanged newObservable)
+            if (changeHandler is not null && field is INotifyPropertyChanged newObservable)
             {
                 newObservable.PropertyChanged += changeHandler;
             }
 
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }
@@ -706,15 +700,13 @@ namespace Flynn1179.Observable
         /// <param name="validate">A function to validate the new value of the property.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Modifying the reference is the point of this method, passing by ref is necessary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for")]
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
             bool disposePrevious,
-            Action? onChange = null,
-            Action<TProp>? onChangeWithPrevious = null,
-            Func<TProp, string>? validate = null,
+            Action onChange = null,
+            Action<TProp> onChangeWithPrevious = null,
+            Func<TProp, string> validate = null,
             [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
         {
@@ -725,7 +717,7 @@ namespace Flynn1179.Observable
                 return false;
             }
 
-            if (!(validate is null) && validate(value) is string message)
+            if (validate is not null && validate(value) is string message)
             {
                 throw new ArgumentException(message);
             }
@@ -739,12 +731,12 @@ namespace Flynn1179.Observable
             this.OnPropertyChanging(propertyName);
             field = value;
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }
@@ -767,16 +759,14 @@ namespace Flynn1179.Observable
         /// <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
         /// <param name="propertyName">The name of the property that's changing.</param>
         /// <returns>True if the field was changed, false otherwise.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Modifying the reference is the point of this method, passing by ref is necessary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for")]
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
             bool disposePrevious,
-            Action? onChange = null,
-            Action<TProp>? onChangeWithPrevious = null,
-            Func<TProp, string>? validate = null,
-            PropertyChangedEventHandler? changeHandler = null,
+            Action onChange = null,
+            Action<TProp> onChangeWithPrevious = null,
+            Func<TProp, string> validate = null,
+            PropertyChangedEventHandler changeHandler = null,
             [CallerMemberName] string propertyName = "")
             where TProp : IDisposable
         {
@@ -787,7 +777,7 @@ namespace Flynn1179.Observable
                 return false;
             }
 
-            if (!(validate is null) && validate(value) is string message)
+            if (validate is not null && validate(value) is string message)
             {
                 throw new ArgumentException(message);
             }
@@ -799,24 +789,24 @@ namespace Flynn1179.Observable
 
             TProp previous = field;
             this.OnPropertyChanging(propertyName);
-            if (!(changeHandler is null) && field is INotifyPropertyChanged oldObservable)
+            if (changeHandler is not null && field is INotifyPropertyChanged oldObservable)
             {
                 oldObservable.PropertyChanged -= changeHandler;
             }
 
             field = value;
-            if (!(changeHandler is null) && field is INotifyPropertyChanged newObservable)
+            if (changeHandler is not null && field is INotifyPropertyChanged newObservable)
             {
                 newObservable.PropertyChanged += changeHandler;
             }
 
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }
@@ -836,15 +826,13 @@ namespace Flynn1179.Observable
         /// <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>True if the property was changed, false if it already held the desired value.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#", Justification = "Modifying the reference is the point of this method, passing by ref is necessary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Code analysis doesn't understand what [CallerMemberName] is for")]
         private bool Set<TProp>(
             ref TProp field,
             TProp value,
             TProp min,
             TProp max,
-            Action? onChange = null,
-            Action<TProp>? onChangeWithPrevious = null,
+            Action onChange = null,
+            Action<TProp> onChangeWithPrevious = null,
             [CallerMemberName] string propertyName = "")
             where TProp : IComparable
         {
@@ -865,12 +853,12 @@ namespace Flynn1179.Observable
             this.OnPropertyChanging(propertyName);
             field = value;
             this.OnPropertyChanged(propertyName);
-            if (!(onChange is null))
+            if (onChange is not null)
             {
                 onChange();
             }
 
-            if (!(onChangeWithPrevious is null))
+            if (onChangeWithPrevious is not null)
             {
                 onChangeWithPrevious(previous);
             }

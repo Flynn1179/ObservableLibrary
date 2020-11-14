@@ -24,15 +24,14 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this EventHandler? handler, object sender, EventArgs e)
+        public static void SafeRaise(this EventHandler handler, object sender, EventArgs e)
         {
             if (handler is null)
             {
                 return;
             }
 
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
@@ -66,15 +65,14 @@ namespace Flynn1179.Observable
         /// <param name="e">Event arguments for the event.</param>
         /// <typeparam name="T">The type of the event arguments for the event.</typeparam>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise<T>(this EventHandler<T>? handler, object sender, T e)
+        public static void SafeRaise<T>(this EventHandler<T> handler, object sender, T e)
         {
             if (handler is null)
             {
                 return;
             }
 
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
@@ -107,7 +105,6 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
         public static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));
@@ -116,7 +113,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             sender.SynchronizationContext.Post(
                 state =>
                 {
@@ -156,8 +153,7 @@ namespace Flynn1179.Observable
         /// <exception cref="ArgumentException">Thrown if sender is not null, and the type of object in the sender does not have the named property.</exception>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         /// <remarks>For static events, the type raising the event is not passed in to this function, so no check can be performed on whether or not the class raising the event has the static property.</remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this PropertyChangedEventHandler? handler, INotifyPropertyChanged sender, string propertyName)
+        public static void SafeRaise(this PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string propertyName)
         {
             propertyName.ThrowIfNullOrEmpty(nameof(propertyName));
             sender?.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -168,7 +164,7 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
@@ -215,7 +211,7 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (PropertyChangedEventHandler del in handlers)
             {
                 try
@@ -249,8 +245,7 @@ namespace Flynn1179.Observable
         /// <param name="propertyName">The name of the property relating to this event.</param>
         /// <exception cref="ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this PropertyChangingEventHandler? handler, INotifyPropertyChanging sender, string propertyName)
+        public static void SafeRaise(this PropertyChangingEventHandler handler, INotifyPropertyChanging sender, string propertyName)
         {
             propertyName.ThrowIfNullOrEmpty(nameof(propertyName));
             sender?.GetType().ValidatePropertyName(propertyName, nameof(propertyName));
@@ -261,7 +256,7 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
                 try
@@ -295,7 +290,6 @@ namespace Flynn1179.Observable
         /// <param name="propertyName">The name of the property relating to this event.</param>
         /// <exception cref="ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
         public static void SafeRaise(this IEnumerable<PropertyChangingEventHandler> handlers, INotifyPropertyChanging sender, string propertyName)
         {
             propertyName.ThrowIfNullOrEmpty(nameof(propertyName));
@@ -307,7 +301,7 @@ namespace Flynn1179.Observable
             }
 
             PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             foreach (PropertyChangingEventHandler del in handlers)
             {
                 try
@@ -340,9 +334,9 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "No exception can be allowed to block downstream handlers")]
-        public static void SafeRaise(this Delegate? handler, ISynchronizedObject sender, EventArgs e)
+        public static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
         {
+            sender.ThrowIfNull(nameof(sender));
             if (handler is null)
             {
                 return;
@@ -350,12 +344,12 @@ namespace Flynn1179.Observable
 
             if (handler.Method.GetParameters() is ParameterInfo[] handlerParams && (handlerParams.Length != 2
                 || !handlerParams[0].ParameterType.IsAssignableFrom(sender.GetType())
-                || !handlerParams[1].ParameterType.IsAssignableFrom(e.GetType())))
+                || !handlerParams[1].ParameterType.IsAssignableFrom(e?.GetType())))
             {
                 throw new ArgumentException("Sender and event args must match handler parameter types.");
             }
 
-            List<Exception>? raisedExceptions = null;
+            List<Exception> raisedExceptions = null;
             sender.SynchronizationContext.Post(
                 state =>
                 {
@@ -398,7 +392,7 @@ namespace Flynn1179.Observable
             const BindingFlags propFlags = BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public;
             if (propertyName.EndsWith("[]", StringComparison.Ordinal))
             {
-                if (type.GetProperty(propertyName.Substring(0, propertyName.Length - 2), propFlags) is PropertyInfo property)
+                if (type.GetProperty(propertyName[0..^2], propFlags) is PropertyInfo property)
                 {
                     if ((property.GetIndexParameters()?.Length ?? 0) == 0)
                     {

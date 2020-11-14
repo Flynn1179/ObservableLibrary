@@ -56,7 +56,7 @@ namespace Flynn1179.Observable
         }
 
         /// <summary>Occurs when an item is added, removed, changed, moved, or the entire list is refreshed.</summary>
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>Gets the number of elements actually contained in the <see cref="SynchronizedObservableList{T}" />.</summary>
         /// <returns>The number of elements actually contained in the <see cref="SynchronizedObservableList{T}" />.</returns>
@@ -169,7 +169,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        object? IList.this[int index]
+        object IList.this[int index]
         {
             [DebuggerStepThrough]
             get => this[index];
@@ -184,9 +184,7 @@ namespace Flynn1179.Observable
                         throw new ArgumentNullException(nameof(value));
                     }
 
-#pragma warning disable CS8601 // Possible null reference assignment. Actually, not possible, that was just ruled out, if it mattered.
                     this[index] = (T)value;
-#pragma warning restore CS8601 // Possible null reference assignment.
                 }
                 catch (InvalidCastException)
                 {
@@ -270,7 +268,7 @@ namespace Flynn1179.Observable
         /// <exception cref="System.ArgumentException">The number of elements in the source <see cref="SynchronizedObservableList{T}" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination <paramref name="array" />.</exception>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            this.ThrowIfNull(nameof(array));
+            array.ThrowIfNull(nameof(array));
             this.ThrowIfCheckFails(nameof(arrayIndex), arrayIndex >= 0 && arrayIndex < array.Length);
             this.ThrowIfCheckFails(nameof(arrayIndex), array.Length - arrayIndex >= this.Count, "Invalid offset length.");
 
@@ -287,7 +285,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        int IList.Add(object? value)
+        int IList.Add(object value)
         {
             this.itemsLocker.EnterWriteLock();
 
@@ -339,15 +337,15 @@ namespace Flynn1179.Observable
                     // We can found all possible problems by doing the check though.
                     // For example, if the element type of the Array is derived from T,
                     // we can't figure out if we can successfully copy the element beforehand.
-                    Type? targetType = array.GetType().GetElementType();
-                    Type? sourceType = typeof(T);
+                    Type targetType = array.GetType().GetElementType();
+                    Type sourceType = typeof(T);
                     if (!(targetType.IsAssignableFrom(sourceType) || sourceType.IsAssignableFrom(targetType)))
                     {
                         throw new ArrayTypeMismatchException("Invalid array type");
                     }
 
                     // We can't cast array of value type to object[], so we don't support widening of primitive types here.
-                    if (!(array is object[] objects))
+                    if (array is not object[] objects)
                     {
                         throw new ArrayTypeMismatchException("Invalid array type");
                     }
@@ -390,7 +388,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        bool IList.Contains(object? value)
+        bool IList.Contains(object value)
         {
             if (!IsCompatibleObject(value))
             {
@@ -450,7 +448,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        int IList.IndexOf(object? value)
+        int IList.IndexOf(object value)
         {
             if (!IsCompatibleObject(value))
             {
@@ -527,7 +525,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        void IList.Insert(int index, object? value)
+        void IList.Insert(int index, object value)
         {
             try
             {
@@ -603,7 +601,7 @@ namespace Flynn1179.Observable
         }
 
         /// <inheritdoc/>
-        void IList.Remove(object? value)
+        void IList.Remove(object value)
         {
             if (IsCompatibleObject(value))
             {

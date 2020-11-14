@@ -31,13 +31,13 @@ namespace Flynn1179.Observable
         /// Occurs before the instance disposes;
         /// </summary>
         /// <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
-        public event EventHandler? Disposing;
+        public event EventHandler Disposing;
 
         /// <summary>
         /// Occurs after the instance disposes.
         /// </summary>
         /// <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
-        public event EventHandler? Disposed;
+        public event EventHandler Disposed;
 
         /// <summary>
         /// Gets a value indicating whether or not this instance is disposed.

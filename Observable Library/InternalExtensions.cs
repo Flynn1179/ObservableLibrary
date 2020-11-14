@@ -30,7 +30,7 @@ namespace Flynn1179.Observable
                 throw new ArgumentNullException(name);
             }
 
-            Contract.Assert(!(parameter is null));
+            Contract.Assert(parameter is not null);
         }
 
         /// <summary>
