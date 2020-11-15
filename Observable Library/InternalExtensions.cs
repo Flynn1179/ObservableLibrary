@@ -6,7 +6,6 @@ namespace Flynn1179.Observable
 {
     using System;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Runtime.CompilerServices;
 
@@ -29,8 +28,6 @@ namespace Flynn1179.Observable
             {
                 throw new ArgumentNullException(name);
             }
-
-            Contract.Assert(parameter is not null);
         }
 
         /// <summary>
