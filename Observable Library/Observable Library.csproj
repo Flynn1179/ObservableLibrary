@@ -18,6 +18,7 @@
     <NeutralLanguage>en-GB</NeutralLanguage>
     <PackageTags>Observable</PackageTags>
     <Nullable>disable</Nullable>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>

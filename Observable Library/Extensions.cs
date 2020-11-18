@@ -2,6 +2,8 @@
 //   Copyright (c) Flynn1179. All rights reserved.
 // </copyright>
 
+// This causes multiple false positives in this file.
+#pragma warning disable CA1508 // Avoid dead conditional code
 namespace Flynn1179.Observable
 {
     using System;
@@ -421,3 +423,4 @@ namespace Flynn1179.Observable
         }
     }
 }
+#pragma warning restore CA1508 // Avoid dead conditional code
