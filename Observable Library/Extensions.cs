@@ -291,6 +291,7 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
+        /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
         internal static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));
@@ -336,6 +337,7 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
+        /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
         internal static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));

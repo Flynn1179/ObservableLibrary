@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>x64</Platforms>
+
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

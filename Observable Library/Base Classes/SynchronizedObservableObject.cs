@@ -7,14 +7,17 @@ namespace Flynn1179.Observable
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
     using System.Threading;
 
     /// <summary>
     /// Defines a base class for an object that implements the <see cref="INotifyPropertyChanging"/>, <see cref="INotifyPropertyChanged"/> and <see cref="ISynchronizedObject"/> interfaces.
     /// </summary>
+    /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation.</remarks>
     [Serializable]
     [ComVisible(false)]
+    [SuppressMessage("Microsoft.Performance", "CA1812", Justification = "Implementation not to be exposed, but should be maintained until suitable for public use.")]
     internal class SynchronizedObservableObject : ObservableObject, ISynchronizedObject
     {
         [NonSerialized]
