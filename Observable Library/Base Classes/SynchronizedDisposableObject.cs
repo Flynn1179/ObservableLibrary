@@ -13,8 +13,8 @@ namespace Flynn1179.Observable
     /// Defines a base class for an object that implements the <see cref="INotifyDisposed"/> and <see cref="ISynchronizedObject"/> interfaces.
     /// </summary>
     [Serializable]
-    [ComVisible(true)]
-    public abstract class SynchronizedDisposableObject : DisposableObject, ISynchronizedObject
+    [ComVisible(false)]
+    internal abstract class SynchronizedDisposableObject : DisposableObject, ISynchronizedObject
     {
         [NonSerialized]
         private readonly SynchronizationContext context;

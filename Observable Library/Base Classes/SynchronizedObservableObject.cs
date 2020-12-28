@@ -14,8 +14,8 @@ namespace Flynn1179.Observable
     /// Defines a base class for an object that implements the <see cref="INotifyPropertyChanging"/>, <see cref="INotifyPropertyChanged"/> and <see cref="ISynchronizedObject"/> interfaces.
     /// </summary>
     [Serializable]
-    [ComVisible(true)]
-    public class SynchronizedObservableObject : ObservableObject, ISynchronizedObject
+    [ComVisible(false)]
+    internal class SynchronizedObservableObject : ObservableObject, ISynchronizedObject
     {
         [NonSerialized]
         private readonly SynchronizationContext context;

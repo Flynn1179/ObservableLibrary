@@ -9,7 +9,7 @@ namespace Flynn1179.Observable
     /// <summary>
     /// Defines properties for an object that has a <see cref="System.Threading.SynchronizationContext"/> on which to raise events.
     /// </summary>
-    public interface ISynchronizedObject
+    internal interface ISynchronizedObject
     {
         /// <summary>
         /// Gets the synchronization context to raise events on.

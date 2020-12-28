@@ -105,51 +105,6 @@ namespace Flynn1179.Observable
         /// </summary>
         /// <param name="handler">The event to raise.</param>
         /// <param name="sender">The sender of the event.</param>
-        /// <param name="e">Event arguments for the event.</param>
-        /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        public static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
-        {
-            sender.ThrowIfNull(nameof(sender));
-            if (handler is null)
-            {
-                return;
-            }
-
-            List<Exception> raisedExceptions = null;
-            sender.SynchronizationContext.Post(
-                state =>
-                {
-                    foreach (Delegate del in handler.GetInvocationList())
-                    {
-                        try
-                        {
-                            del.DynamicInvoke(sender, e);
-                        }
-                        catch (TargetInvocationException ex) when (ex.InnerException is Exception)
-                        {
-                            if (raisedExceptions is null)
-                            {
-                                raisedExceptions = new List<Exception>();
-                            }
-
-                            raisedExceptions.Add(ex.InnerException);
-                        }
-                    }
-                }, null);
-
-            // Check list of exceptions is either still null, or not empty.
-            Debug.Assert(raisedExceptions is null || raisedExceptions.Any(), "Empty list of exceptions after handling event.");
-            if (raisedExceptions is List<Exception>)
-            {
-                throw new AggregateException(Properties.Resources.SafeRaiseExceptionMessage, raisedExceptions);
-            }
-        }
-
-        /// <summary>
-        /// Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
-        /// </summary>
-        /// <param name="handler">The event to raise.</param>
-        /// <param name="sender">The sender of the event.</param>
         /// <param name="propertyName">The name of the property relating to this event.</param>
         /// <exception cref="ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
         /// <exception cref="ArgumentException">Thrown if sender is not null, and the type of object in the sender does not have the named property.</exception>
@@ -336,7 +291,52 @@ namespace Flynn1179.Observable
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
-        public static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
+        internal static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
+        {
+            sender.ThrowIfNull(nameof(sender));
+            if (handler is null)
+            {
+                return;
+            }
+
+            List<Exception> raisedExceptions = null;
+            sender.SynchronizationContext.Post(
+                state =>
+                {
+                    foreach (Delegate del in handler.GetInvocationList())
+                    {
+                        try
+                        {
+                            del.DynamicInvoke(sender, e);
+                        }
+                        catch (TargetInvocationException ex) when (ex.InnerException is Exception)
+                        {
+                            if (raisedExceptions is null)
+                            {
+                                raisedExceptions = new List<Exception>();
+                            }
+
+                            raisedExceptions.Add(ex.InnerException);
+                        }
+                    }
+                }, null);
+
+            // Check list of exceptions is either still null, or not empty.
+            Debug.Assert(raisedExceptions is null || raisedExceptions.Any(), "Empty list of exceptions after handling event.");
+            if (raisedExceptions is List<Exception>)
+            {
+                throw new AggregateException(Properties.Resources.SafeRaiseExceptionMessage, raisedExceptions);
+            }
+        }
+
+        /// <summary>
+        /// Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+        /// </summary>
+        /// <param name="handler">The event to raise.</param>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">Event arguments for the event.</param>
+        /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
+        internal static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));
             if (handler is null)

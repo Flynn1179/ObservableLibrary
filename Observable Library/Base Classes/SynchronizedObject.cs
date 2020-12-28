@@ -13,8 +13,8 @@ namespace Flynn1179.Observable
     /// Defines a base class for an object that implements the <see cref="ISynchronizedObject"/> interface.
     /// </summary>
     [Serializable]
-    [ComVisible(true)]
-    public abstract class SynchronizedObject : ISynchronizedObject
+    [ComVisible(false)]
+    internal abstract class SynchronizedObject : ISynchronizedObject
     {
         [NonSerialized]
         private readonly SynchronizationContext context;
