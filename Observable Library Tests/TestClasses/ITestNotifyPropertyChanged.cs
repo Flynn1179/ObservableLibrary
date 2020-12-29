@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace Flynn1179.Observable.Tests.TestClasses
+namespace Flynn1179.Observable.Tests
 {
     public interface ITestNotifyPropertyChanged<T> : INotifyPropertyChanged
     {

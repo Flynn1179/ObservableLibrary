@@ -2,23 +2,37 @@
 //   Copyright © 2020 Flynn1179
 // </copyright>
 
-namespace Flynn1179.Observable.Tests.TestClasses
-{
-    public class TestObservableObject<T1,T2> : ObservableObject
-    {
-        private T1 field1;
-        private T2 field2;
+using System;
+using System.ComponentModel;
 
-        public T1 Property1
+namespace Flynn1179.Observable.Tests
+{
+    public class TestObservableObject : TestObservableObject<object> { }
+
+    public class TestObservableObject<T> : ObservableObject, ITestNotifyPropertyChanged<T>
+    {
+        private readonly T[] indexed = new T[8];
+
+        private string stringField;
+
+        private T field;
+
+        public string StringProperty
         {
-            get => this.field1;
-            set => this.Set(ref this.field1, value);
+            get => this.stringField;
+            set => this.Set(ref this.stringField, value);
         }
 
-        public T2 Property2
+        public T Property
         {
-            get => this.field2;
-            set => this.Set(ref this.field2, value);
+            get => this.field;
+            set => this.Set(ref this.field, value);
+        }
+
+        public T this[int index]
+        {
+            get => this.indexed[index];
+            set => this.Set(ref this.indexed[index], value, "Item[]");
         }
     }
 }

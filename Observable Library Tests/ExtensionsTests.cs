@@ -75,7 +75,7 @@ namespace Flynn1179.Observable.Tests
         [Test]
         public void SafeRaiseNullSenderInvalid()
         {
-            INotifyPropertyChanged testSender = NSubstitute.Substitute.For<TestClasses.ITestNotifyPropertyChanged<object>>();
+            INotifyPropertyChanged testSender = NSubstitute.Substitute.For<ITestNotifyPropertyChanged<object>>();
 
             // Even though there's no handler, that might not be known at runtime, so the SafeRaise should still throw if the property name's invalid.
             ArgumentException thrown = Assert.Throws<ArgumentException>(() => ((PropertyChangedEventHandler)null).SafeRaise(testSender, "InvalidProperty"));
@@ -88,10 +88,10 @@ namespace Flynn1179.Observable.Tests
         [Test]
         public void SafeRaiseNullSenderValid()
         {
-            INotifyPropertyChanged testSender = NSubstitute.Substitute.For<TestClasses.ITestNotifyPropertyChanged<object>>();
+            INotifyPropertyChanged testSender = NSubstitute.Substitute.For<ITestNotifyPropertyChanged<object>>();
 
             // Even though there's no handler, that might not be known at runtime, so the SafeRaise should still throw if the property name's invalid.
-            Assert.DoesNotThrow(() => ((PropertyChangedEventHandler)null).SafeRaise(testSender, nameof(TestClasses.ITestNotifyPropertyChanged<object>.Property)));
+            Assert.DoesNotThrow(() => ((PropertyChangedEventHandler)null).SafeRaise(testSender, nameof(ITestNotifyPropertyChanged<object>.Property)));
         }
 
         [Test]
