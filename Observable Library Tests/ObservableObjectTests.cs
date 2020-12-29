@@ -630,6 +630,10 @@ namespace Flynn1179.Observable.Tests
             // TODO: Add tests.
         }
 
+        /// <summary>
+        /// Tests for <see cref="ObservableObject.Set{TProp}(ref TProp, TProp, string)"/>.
+        /// </summary>
+        [TestFixture]
         public class SetGeneric_Field_Value_PropertyName
         {
             private MethodInfo method;
@@ -921,44 +925,57 @@ namespace Flynn1179.Observable.Tests
                 Assert.AreSame(oldObject, arguments[0]);
             }
         }
+
+        public class SetGeneric_Field_Value_OnChange_PropertyName { }
+
+        public class SetGeneric_Field_Value_OnChangeWithPrevious_PropertyName { }
+
+        public class SetGeneric_Field_Value_Validate_PropertyName { }
+
+        public class SetGeneric_Field_Value_OnChange_Validate_PropertyName { }
+
+        public class SetGeneric_Field_Value_OnChangeWithPrevious_Validate_PropertyName { }
+
+        public class SetObservable_Field_Value_ChangeHandler_PropertyName { }
+
+        public class SetObservable_Field_Value_OnChange_ChangeHandler_PropertyName { }
+
+        public class SetObservable_Field_Value_OnChangeWithPrevious_ChangeHandler_PropertyName { }
+
+        public class SetObservable_Field_Value_Validate_ChangeHandler_PropertyName { }
+
+        public class SetObservable_Field_Value_OnChange_Validate_ChangeHandler_PropertyName { }
+
+        public class SetObservable_Field_Value_OnChangeWithPrevious_Validate_ChangeHandler_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_OnChange_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_OnChangeWithPrevious_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_Validate_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_OnChange_Validate_PropertyName { }
+
+        public class SetDisposable_Field_Value_DisposePrevious_OnChangeWithPrevious_Validate_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_ChangeHandler_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_OnChange_ChangeHandler_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_OnChangeWithPrevious_ChangeHandler_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_Validate_ChangeHandler_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_OnChange_Validate_ChangeHandler_PropertyName { }
+
+        public class SetObservableDisposable_Field_Value_DisposePrevious_OnChangeWithPrevious_Validate_ChangeHandler_PropertyName { }
+
+        public class SetComparable_Field_Value_Min_Max_PropertyName { }
+
+        public class SetComparable_Field_Value_Min_Max_OnChange_PropertyName { }
+
+        public class SetComparable_Field_Value_Min_Max_OnChangeWithPrevious_PropertyName { }
     }
-    /* Methods still to test:
-
-    Any other property type.
-    protected bool Set<TProp>(ref TProp field, TProp value, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-
-    Observable property type with change handler
-    protected bool Set<TProp>(ref TProp field, TProp value, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-
-    Disposable property type with optional dispose previous
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, [CallerMemberName] string propertyName = "")
-
-    Disposable & observable property with change handler and optional dispose previous
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action onChange, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, bool disposePrevious, Action<TProp> onChangeWithPrevious, Func<TProp, string> validate, PropertyChangedEventHandler changeHandler = null, [CallerMemberName] string propertyName = "")
-
-    Properties with range and defined min/max (inclusive) 
-    protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action onChange = null, [CallerMemberName] string propertyName = "")
-    protected bool Set<TProp>(ref TProp field, TProp value, TProp min, TProp max, Action<TProp> onChangeWithPrevious = null, [CallerMemberName] string propertyName = "")
-    */
 }
