@@ -780,7 +780,6 @@ namespace Flynn1179.Observable.Tests
                 Assert.AreEqual("OldValue", arguments[0]);
             }
 
-
             /// <summary>
             /// Test that if null is passed in all parameters, a NullReference exception is thrown on the 'propertyName' parameter. The previous and new value for a string field can be null.
             /// </summary>
@@ -1089,7 +1088,546 @@ namespace Flynn1179.Observable.Tests
                 Assert.IsNotNull(this.method);
             }
 
-            // TODO: Add tests.
+
+            /// <summary>
+            /// Test that if null is passed in all parameters, a NullReference exception is thrown on the 'propertyName' parameter. The previous and new value for a string field can be null.
+            /// </summary>
+            [Test]
+            public void Null_Null_Null_Null()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { null, null, null, null };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentNullException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.IsNull(arguments[0]);
+            }
+
+            /// <summary>
+            /// Test that if null is passed for the current and new value with a valid parameter name, the method passes without incident, returns false, and no events are raised.
+            /// </summary>
+            [Test]
+            public void Null_Null_Null_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { null, null, null, nameof(TestObservableObject.Property) };
+
+                // Set property with value of 'null' to 'null'- should have no effect.
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(false, retVal);
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.IsNull(arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed from null.
+            /// </summary>
+            [Test]
+            public void Null_Value_Null_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { null, "NewValue", null, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed to null.
+            /// </summary>
+            [Test]
+            public void Value_Null_Null_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", null, null, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual(null, arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that a string field being asked to change to the same value will have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value_Null_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "OldValue", null, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(false, retVal);
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed from one value to another.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Null_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", "NewValue", null, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an invalid property name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Null_InvalidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", null, "NotAProperty" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that an indexed string field can be changed from one value to another.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Null_ValidIndexerName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", "NewValue", null, "Item[]" };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual("Item[]", changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual("Item[]", changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an indexed name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Null_ValidPropertyNameWithIndexerBrackets()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", null, "Property[]" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an indexed name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Null_IndexerNameWithoutBrackets()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", null, "Item" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+            }
+
+            /// <summary>
+            /// Test that if null is passed in all parameters, a NullReference exception is thrown on the 'propertyName' parameter. The previous and new value for a string field can be null.
+            /// </summary>
+            [Test]
+            public void Null_Null_Valid_Null()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { null, null, action, null };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentNullException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.IsNull(arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
+
+            /// <summary>
+            /// Test that if null is passed for the current and new value with a valid parameter name, the method passes without incident, returns false, and no events are raised.
+            /// </summary>
+            [Test]
+            public void Null_Null_Valid_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { null, null, action, nameof(TestObservableObject.Property) };
+
+                // Set property with value of 'null' to 'null'- should have no effect.
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(false, retVal);
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.IsNull(arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed from null.
+            /// </summary>
+            [Test]
+            public void Null_Value_Valid_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { null, "NewValue", action, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+                Assert.AreEqual(null, previousValue);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed to null.
+            /// </summary>
+            [Test]
+            public void Value_Null_Valid_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", null, action, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual(null, arguments[0]);
+                Assert.AreEqual("OldValue", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that a string field being asked to change to the same value will have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value_Valid_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "OldValue", action, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(false, retVal);
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that a string field can be changed from one value to another.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Valid_ValidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", "NewValue", action, nameof(TestObservableObject.Property) };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual(nameof(TestObservableObject.Property), changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+                Assert.AreEqual("OldValue", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an invalid property name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Valid_InvalidPropertyName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", action, "NotAProperty" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that an indexed string field can be changed from one value to another.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Valid_ValidIndexerName()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                string changingProperty = null;
+                int changedCalled = 0;
+                string changedProperty = null;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => { changingCalled++; changingProperty = e.PropertyName; };
+                testObject.PropertyChanged += (sender, e) => { changedCalled++; changedProperty = e.PropertyName; };
+                object[] arguments = new object[] { "OldValue", "NewValue", action, "Item[]" };
+
+                bool retVal = (bool)this.method.Invoke(testObject, arguments);
+
+                Assert.AreEqual(true, retVal);
+                Assert.AreEqual(1, changingCalled);
+                Assert.AreEqual("Item[]", changingProperty);
+                Assert.AreEqual(1, changedCalled);
+                Assert.AreEqual("Item[]", changedProperty);
+                Assert.AreEqual("NewValue", arguments[0]);
+                Assert.AreEqual("OldValue", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an indexed name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Valid_ValidPropertyNameWithIndexerBrackets()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", action, "Property[]" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
+
+            /// <summary>
+            /// Tests that attempting to change a property value with an indexed name will throw an exception, and have no effect.
+            /// </summary>
+            [Test]
+            public void Value_Value2_Valid_IndexerNameWithoutBrackets()
+            {
+                ObservableObject testObject = new TestObservableObject();
+                int changingCalled = 0;
+                int changedCalled = 0;
+                string previousValue = "Unchanged";
+                Action<string> action = prev => previousValue = prev;
+                testObject.PropertyChanging += (sender, e) => changingCalled++;
+                testObject.PropertyChanged += (sender, e) => changedCalled++;
+                object[] arguments = new object[] { "OldValue", "NewValue", action, "Item" };
+
+                try
+                {
+                    this.method.Invoke(testObject, arguments);
+                    Assert.Fail("No exception thrown.");
+                }
+                catch (TargetInvocationException tie) when (tie.InnerException is ArgumentException e)
+                {
+                    Assert.AreEqual("propertyName", e.ParamName);
+                }
+
+                Assert.AreEqual(0, changingCalled);
+                Assert.AreEqual(0, changedCalled);
+                Assert.AreEqual("OldValue", arguments[0]);
+                Assert.AreEqual("Unchanged", previousValue);
+            }
         }
 
         [TestFixture]
