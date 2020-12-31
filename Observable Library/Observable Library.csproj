@@ -9,6 +9,7 @@
     <Version>1.0.0-alpha</Version>
     <Company />
     <Authors>Alianna Flynn</Authors>
+	<Title>Observable Library</Title>
     <Description>A lightweight library of base classes to support observable .NET objects, implementing the INotifyPropertyChanged and INotifyPropertyChanging interfaces, including helper functions to simplify property implementation.</Description>
     <Copyright>Alianna Flynn</Copyright>
     <PackageProjectUrl>https://github.com/Flynn1179/ObservableLibrary</PackageProjectUrl>
