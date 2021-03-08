@@ -120,7 +120,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
+            PropertyChangedEventArgs e = new (propertyName);
             List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
@@ -167,7 +167,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
+            PropertyChangedEventArgs e = new (propertyName);
             List<Exception> raisedExceptions = null;
             foreach (PropertyChangedEventHandler del in handlers)
             {
@@ -212,7 +212,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
+            PropertyChangingEventArgs e = new (propertyName);
             List<Exception> raisedExceptions = null;
             foreach (Delegate del in handler.GetInvocationList())
             {
@@ -257,7 +257,7 @@ namespace Flynn1179.Observable
                 return;
             }
 
-            PropertyChangingEventArgs e = new PropertyChangingEventArgs(propertyName);
+            PropertyChangingEventArgs e = new (propertyName);
             List<Exception> raisedExceptions = null;
             foreach (PropertyChangingEventHandler del in handlers)
             {
@@ -292,7 +292,7 @@ namespace Flynn1179.Observable
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
-        internal static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
+        public static void SafeRaise(this EventHandler handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));
             if (handler is null)
@@ -338,7 +338,7 @@ namespace Flynn1179.Observable
         /// <param name="e">Event arguments for the event.</param>
         /// <exception cref="AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="AggregateException.InnerExceptions"/> property.</exception>
         /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
-        internal static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
+        public static void SafeRaise(this Delegate handler, ISynchronizedObject sender, EventArgs e)
         {
             sender.ThrowIfNull(nameof(sender));
             if (handler is null)

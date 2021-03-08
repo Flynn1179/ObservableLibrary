@@ -11,11 +11,11 @@ namespace Flynn1179.Observable
 
     /// <summary>
     /// Defines a base class for an object that implements the <see cref="ISynchronizedObject"/> interface.
+    /// Synchronized objects raise events on their own <see cref="SynchronizationContext"/>, the <see cref="Extensions.SafeRaise(System.EventHandler, ISynchronizedObject, System.EventArgs)"/> and related overloads handle this.
     /// </summary>
-    /// <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation.</remarks>
     [Serializable]
     [ComVisible(false)]
-    internal abstract class SynchronizedObject : ISynchronizedObject
+    public abstract class SynchronizedObject : ISynchronizedObject
     {
         [NonSerialized]
         private readonly SynchronizationContext context;

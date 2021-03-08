@@ -18,7 +18,7 @@ namespace Flynn1179.Observable
     [Serializable]
     [ComVisible(false)]
     [SuppressMessage("Microsoft.Performance", "CA1812", Justification = "Implementation not to be exposed, but should be maintained until suitable for public use.")]
-    internal class SynchronizedDisposableObservableObject : DisposableObservableObject, ISynchronizedObject
+    public class SynchronizedDisposableObservableObject : DisposableObservableObject, ISynchronizedObject
     {
         [NonSerialized]
         private readonly SynchronizationContext context;
