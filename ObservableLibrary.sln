@@ -5,7 +5,10 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observable Library", "Observable Library\Observable Library.csproj", "{D72DDF29-7EB7-4586-A25B-316DB04F6353}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observable Library Tests", "Observable Library Tests\Observable Library Tests.csproj", "{66485990-E931-4B62-8721-D17DB9F9F4FC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{181B545E-68CA-45C5-A902-B9D2A6A58D51}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +20,6 @@ Global
 		{D72DDF29-7EB7-4586-A25B-316DB04F6353}.Debug|x64.Build.0 = Debug|x64
 		{D72DDF29-7EB7-4586-A25B-316DB04F6353}.Release|x64.ActiveCfg = Release|x64
 		{D72DDF29-7EB7-4586-A25B-316DB04F6353}.Release|x64.Build.0 = Release|x64
-		{66485990-E931-4B62-8721-D17DB9F9F4FC}.Debug|x64.ActiveCfg = Debug|x64
-		{66485990-E931-4B62-8721-D17DB9F9F4FC}.Debug|x64.Build.0 = Debug|x64
-		{66485990-E931-4B62-8721-D17DB9F9F4FC}.Release|x64.ActiveCfg = Release|x64
-		{66485990-E931-4B62-8721-D17DB9F9F4FC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
