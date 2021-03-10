@@ -24,7 +24,9 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <FileVersion>1.0.1.0</FileVersion>
-    <PackageReleaseNotes>v1.0.1 Added intellisense.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added SynchronizedObservableList
+Added ISynchronizedObject and related base classes
+Added intellisense.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

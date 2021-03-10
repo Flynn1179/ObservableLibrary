@@ -17,10 +17,14 @@ namespace Flynn1179.Observable
     [Serializable]
     public class SynchronizedObservableList<T> : SynchronizedDisposableObservableObject, IList<T>, IList, IReadOnlyList<T>, INotifyCollectionChanged
     {
-        private readonly List<T> items = new List<T>();
+        private const string ReentrancyNotAllowedError = "SynchronizedObservableList reentrancy not allowed";
+
+        private const string ValueWrongTypeError = "value is the wrong type";
+
+        private readonly List<T> items = new ();
 
         [NonSerialized]
-        private readonly ReaderWriterLockSlim itemsLocker = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim itemsLocker = new ();
 
         [NonSerialized]
         private int monitor;
@@ -132,7 +136,10 @@ namespace Flynn1179.Observable
 
                 try
                 {
-                    this.CheckIndex(index);
+                    if (index < 0 || index >= this.items.Count)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(index));
+                    }
 
                     return this.items[index];
                 }
@@ -151,9 +158,15 @@ namespace Flynn1179.Observable
 
                 try
                 {
-                    this.CheckIndex(index);
+                    if (index < 0 || index >= this.items.Count)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(index));
+                    }
 
-                    this.CheckReentrancy();
+                    if (this.monitor > 0)
+                    {
+                        throw new InvalidOperationException(ReentrancyNotAllowedError);
+                    }
 
                     oldValue = this.items[index];
 
@@ -164,7 +177,20 @@ namespace Flynn1179.Observable
                     this.itemsLocker.ExitWriteLock();
                 }
 
-                this.OnNotifyItemReplaced(value, oldValue, index);
+                Interlocked.Increment(ref this.monitor);
+                try
+                {
+                    this.SynchronizationContext.Send(
+                        state =>
+                        {
+                            this.OnPropertyChanged("Items[]");
+                            this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, oldValue, index));
+                        }, null);
+                }
+                finally
+                {
+                    Interlocked.Decrement(ref this.monitor);
+                }
             }
         }
 
@@ -188,7 +214,7 @@ namespace Flynn1179.Observable
                 }
                 catch (InvalidCastException)
                 {
-                    throw new ArgumentException("'value' is the wrong type");
+                    throw new ArgumentException(ValueWrongTypeError);
                 }
             }
         }
@@ -203,7 +229,11 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
+
                 index = this.items.Count;
                 this.items.Insert(index, item);
             }
@@ -212,7 +242,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemAdded(item, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>
@@ -225,7 +269,11 @@ namespace Flynn1179.Observable
             int index;
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
+
                 index = this.items.Count;
                 this.items.InsertRange(index, collection);
             }
@@ -234,7 +282,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemsAdded(collection.ToList(), index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, collection.ToList(), index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>
@@ -246,7 +308,10 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 this.items.Clear();
             }
@@ -255,7 +320,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyCollectionReset();
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>Copies the <see cref="SynchronizedObservableList{T}" /> elements to an existing one-dimensional <see cref="System.Array" />, starting at the specified array index.</summary>
@@ -294,7 +373,10 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 index = this.items.Count;
                 item = (T)value;
@@ -303,14 +385,28 @@ namespace Flynn1179.Observable
             }
             catch (InvalidCastException)
             {
-                throw new ArgumentException("'value' is the wrong type");
+                throw new ArgumentException(ValueWrongTypeError);
             }
             finally
             {
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemAdded(item, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
 
             return index;
         }
@@ -390,7 +486,7 @@ namespace Flynn1179.Observable
         /// <inheritdoc/>
         bool IList.Contains(object value)
         {
-            if (!IsCompatibleObject(value))
+            if (!typeof(T).IsAssignableFrom(value?.GetType()))
             {
                 return false;
             }
@@ -450,7 +546,7 @@ namespace Flynn1179.Observable
         /// <inheritdoc/>
         int IList.IndexOf(object value)
         {
-            if (!IsCompatibleObject(value))
+            if (!typeof(T).IsAssignableFrom(value?.GetType()))
             {
                 return -1;
             }
@@ -478,7 +574,10 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 if (index < 0 || index > this.items.Count)
                 {
@@ -492,7 +591,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemAdded(item, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>
@@ -507,7 +620,10 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 if (index < 0 || index > this.items.Count)
                 {
@@ -521,7 +637,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemsAdded(collection.ToList(), index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, collection.ToList(), index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <inheritdoc/>
@@ -548,9 +678,20 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
-                this.CheckIndex(oldIndex);
-                this.CheckIndex(newIndex);
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
+
+                if (oldIndex < 0 || oldIndex >= this.items.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(oldIndex));
+                }
+
+                if (newIndex < 0 || newIndex >= this.items.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(newIndex));
+                }
 
                 item = this.items[oldIndex];
 
@@ -562,7 +703,20 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemMoved(item, newIndex, oldIndex);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged("Items[]");
+                        this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>Removes the first occurrence of a specific object from the <see cref="SynchronizedObservableList{T}" />.</summary>
@@ -577,7 +731,10 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckReentrancy();
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 index = this.items.IndexOf(item);
 
@@ -595,7 +752,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemRemoved(value, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
 
             return true;
         }
@@ -603,7 +774,7 @@ namespace Flynn1179.Observable
         /// <inheritdoc/>
         void IList.Remove(object value)
         {
-            if (IsCompatibleObject(value))
+            if (typeof(T).IsAssignableFrom(value?.GetType()))
             {
                 this.Remove((T)value);
             }
@@ -621,8 +792,15 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckIndex(index);
-                this.CheckReentrancy();
+                if (index < 0 || index > this.items.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 value = this.items[index];
 
@@ -633,7 +811,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemRemoved(value, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>
@@ -649,8 +841,15 @@ namespace Flynn1179.Observable
 
             try
             {
-                this.CheckIndex(index, count);
-                this.CheckReentrancy();
+                if (index < 0 || count < 0 || index + count > this.items.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                if (this.monitor > 0)
+                {
+                    throw new InvalidOperationException(ReentrancyNotAllowedError);
+                }
 
                 value = this.items.Skip(index).Take(count).ToArray();
 
@@ -661,7 +860,21 @@ namespace Flynn1179.Observable
                 this.itemsLocker.ExitWriteLock();
             }
 
-            this.OnNotifyItemsRemoved(value, index);
+            Interlocked.Increment(ref this.monitor);
+            try
+            {
+                this.SynchronizationContext.Send(
+                    state =>
+                    {
+                        this.OnPropertyChanged(nameof(ICollection.Count));
+                        this.OnPropertyChanged("Item[]");
+                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+                    }, null);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref this.monitor);
+            }
         }
 
         /// <summary>
@@ -679,164 +892,6 @@ namespace Flynn1179.Observable
             if (disposing)
             {
                 this.itemsLocker.Dispose();
-            }
-        }
-
-        private static bool IsCompatibleObject(object value)
-            => (value is T) || (value is null && default(T) is null);
-
-        private void CheckIndex(int index)
-        {
-            if (index < 0 || index >= this.items.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        private void CheckIndex(int index, int count)
-        {
-            if (index < 0 || count < 0 || index + count > this.items.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        private void CheckReentrancy()
-        {
-            if (this.monitor > 0)
-            {
-                throw new InvalidOperationException("SynchronizedObservableCollection reentrancy not allowed");
-            }
-        }
-
-        private void OnNotifyCollectionReset()
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged(nameof(ICollection.Count));
-                        this.OnPropertyChanged("Item[]");
-                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemAdded(T item, int index)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged(nameof(ICollection.Count));
-                        this.OnPropertyChanged("Item[]");
-                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemsAdded(IList collection, int index)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged(nameof(ICollection.Count));
-                        this.OnPropertyChanged("Item[]");
-                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, collection, index));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemMoved(T item, int newIndex, int oldIndex)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged("Items[]");
-                        this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemRemoved(T item, int index)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged(nameof(ICollection.Count));
-                        this.OnPropertyChanged("Item[]");
-                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemsRemoved(IList collection, int index)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged(nameof(ICollection.Count));
-                        this.OnPropertyChanged("Item[]");
-                        this.CollectionChanged.SafeRaise(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, collection, index));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
-            }
-        }
-
-        private void OnNotifyItemReplaced(T newItem, T oldItem, int index)
-        {
-            this.monitor++;
-            try
-            {
-                this.SynchronizationContext.Send(
-                    state =>
-                    {
-                        this.OnPropertyChanged("Items[]");
-                        this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, index));
-                    }, null);
-            }
-            finally
-            {
-                this.monitor--;
             }
         }
     }
