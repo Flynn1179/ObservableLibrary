@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ki7JsGQJaeHoXnM19McUhCRvZ+gsBFx74LCOvEYS3yAuI1ehsS0PlPXdNVXXM9G5Af2vpdq+ERiHISmxMgGVpQ==",
+  "success": true,
+  "projectFilePath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Flynn\\.nuget\\packages\\flynn1179.observablelibrary\\1.0.1-alpha\\flynn1179.observablelibrary.1.0.1-alpha.nupkg.sha512"
+  ],
+  "logs": []
+}

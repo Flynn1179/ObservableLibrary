@@ -1,0 +1,94 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "Flynn1179.ObservableLibrary/1.0.1-alpha": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Flynn1179.ObservableLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Flynn1179.ObservableLibrary.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Flynn1179.ObservableLibrary/1.0.1-alpha": {
+      "type": "project",
+      "path": "../Observable Library/Observable Library.csproj",
+      "msbuildProject": "../Observable Library/Observable Library.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "Flynn1179.ObservableLibrary >= 1.0.1-alpha"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Flynn\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj",
+      "projectName": "Observable Tests",
+      "projectPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj",
+      "packagesPath": "C:\\Users\\Flynn\\.nuget\\packages\\",
+      "outputPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Flynn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {
+            "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj": {
+              "projectPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

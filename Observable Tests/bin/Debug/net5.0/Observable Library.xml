@@ -1,0 +1,1290 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Observable Library</name>
+    </assembly>
+    <members>
+        <member name="T:Flynn1179.Observable.DisposableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:Flynn1179.Observable.INotifyDisposed"/> interface.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObject.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Flynn1179.Observable.DisposableObject"/> class.
+            </summary>
+            <remarks>Does not call 'DoDispose', as finalizing objects should not be setting properties or raising events.</remarks>
+        </member>
+        <member name="E:Flynn1179.Observable.DisposableObject.Disposing">
+            <summary>
+            Occurs before the instance disposes.
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="E:Flynn1179.Observable.DisposableObject.Disposed">
+            <summary>
+            Occurs after the instance disposes.
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="P:Flynn1179.Observable.DisposableObject.IsDisposed">
+            <summary>
+            Gets a value indicating whether or not this instance is disposed.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObject.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObject.Dispose(System.Boolean)">
+            <summary>
+            Disposes any managed resources or unmanaged resources.
+            </summary>
+            <param name="disposing">True if the <see cref="M:Flynn1179.Observable.DisposableObject.Dispose"/> method was called, false if the finalizer was called.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObject.DoDispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <param name="disposing">True if the <see cref="M:Flynn1179.Observable.DisposableObject.Dispose"/> method was called, false if the finalizer was called.</param>
+        </member>
+        <member name="T:Flynn1179.Observable.DisposableObservableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:Flynn1179.Observable.INotifyDisposed"/>, <see cref="T:System.ComponentModel.INotifyPropertyChanging"/> and <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interfaces.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObservableObject.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Flynn1179.Observable.DisposableObservableObject"/> class.
+            </summary>
+            <remarks>Does not call 'DoDispose', as finalizing objects should not be setting properties or raising events.</remarks>
+        </member>
+        <member name="E:Flynn1179.Observable.DisposableObservableObject.Disposing">
+            <summary>
+            Occurs before the instance disposes;
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="E:Flynn1179.Observable.DisposableObservableObject.Disposed">
+            <summary>
+            Occurs after the instance disposes.
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="P:Flynn1179.Observable.DisposableObservableObject.IsDisposed">
+            <summary>
+            Gets a value indicating whether or not this instance is disposed.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObservableObject.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObservableObject.Dispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <param name="disposing">True if the <see cref="M:Flynn1179.Observable.DisposableObservableObject.Dispose"/> method was called, false if the finalizer was called.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.DisposableObservableObject.DoDispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <param name="disposing">True if the <see cref="M:Flynn1179.Observable.DisposableObservableObject.Dispose"/> method was called, false if the finalizer was called.</param>
+        </member>
+        <member name="T:Flynn1179.Observable.INotifyDisposed">
+            <summary>
+            Represents events and properties for an object that implements IDisposable, and also has a queriable <see cref="P:Flynn1179.Observable.INotifyDisposed.IsDisposed"/> property and
+            <see cref="E:Flynn1179.Observable.INotifyDisposed.Disposing"/> and <see cref="E:Flynn1179.Observable.INotifyDisposed.Disposed"/> events.
+            </summary>
+        </member>
+        <member name="E:Flynn1179.Observable.INotifyDisposed.Disposing">
+            <summary>
+            Occurs before the instance is disposed.
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="E:Flynn1179.Observable.INotifyDisposed.Disposed">
+            <summary>
+            Occurs after the instance is disposed.
+            </summary>
+            <remarks>This is not raised if it was the finalizer that disposed it.</remarks>
+        </member>
+        <member name="P:Flynn1179.Observable.INotifyDisposed.IsDisposed">
+            <summary>
+            Gets a value indicating whether the instance is disposed or not.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.ISynchronizedObject">
+            <summary>
+            Defines properties for an object that has a <see cref="T:System.Threading.SynchronizationContext"/> on which to raise events.
+            </summary>
+            <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation.</remarks>
+        </member>
+        <member name="P:Flynn1179.Observable.ISynchronizedObject.SynchronizationContext">
+            <summary>
+            Gets the synchronization context to raise events on.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:System.ComponentModel.INotifyPropertyChanging"/> and <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interfaces.
+            </summary>
+        </member>
+        <member name="E:Flynn1179.Observable.ObservableObject.PropertyChanging">
+            <summary>
+            Occurs before a property of this object changes.
+            </summary>
+        </member>
+        <member name="E:Flynn1179.Observable.ObservableObject.PropertyChanged">
+            <summary>
+            Occurs after a property of this object changes.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.OnPropertyChanging(System.String)">
+            <summary>
+            Default implementation of the OnPropertyChanging method that just raises the event.
+            </summary>
+            <param name="propertyName">The name of the property to raise an event for.</param>
+            <exception cref="T:System.ArgumentException">Throw if the property does not exist on the target, if a debugger is attached.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.OnPropertyChanged(System.String)">
+            <summary>
+            Default implementation of the OnPropertyChanged method that just raises the event.
+            </summary>
+            <param name="propertyName">The name of the property to raise an event for.</param>
+            <exception cref="T:System.ArgumentException">Throw if the property does not exist on the target, if a debugger is attached.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Action,System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Action{System.String},System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Func{System.String,System.String},System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Action,System.Func{System.String,System.String},System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Action{System.String},System.Func{System.String,System.String},System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action{``0},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action{``0},System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action{``0},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action{``0},System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action{``0},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action{``0},System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action{``0},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action{``0},System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,``0,``0,System.String)">
+            <summary>
+            Changes the value of a property after checking it's within a given range, and if it changed, raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the backing field for the property.</param>
+            <param name="value">The new value for the property.</param>
+            <param name="min">The minimum permitted value for the property.</param>
+            <param name="max">The maximum permitted value for the property.</param>
+            <param name="propertyName">The name of the property.</param>
+            <returns>True if the property was changed, false if it already held the desired value.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,``0,``0,System.Action,System.String)">
+            <summary>
+            Changes the value of a property after checking it's within a given range, and if it changed, raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the backing field for the property.</param>
+            <param name="value">The new value for the property.</param>
+            <param name="min">The minimum permitted value for the property.</param>
+            <param name="max">The maximum permitted value for the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="propertyName">The name of the property.</param>
+            <returns>True if the property was changed, false if it already held the desired value.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,``0,``0,System.Action{``0},System.String)">
+            <summary>
+            Changes the value of a property after checking it's within a given range, and if it changed, raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the backing field for the property.</param>
+            <param name="value">The new value for the property.</param>
+            <param name="min">The minimum permitted value for the property.</param>
+            <param name="max">The maximum permitted value for the property.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="propertyName">The name of the property.</param>
+            <returns>True if the property was changed, false if it already held the desired value.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set(System.String@,System.String,System.Action,System.Action{System.String},System.Func{System.String,System.String},System.String)">
+            <summary>
+            Sets the value of the referenced field if it wasn't already the same, and raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <param name="field">A reference to the field to change.</param>
+            <param name="value">The new value of the field.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that exposes this field.</param>
+            <returns>True if the field was changed and the event was raised, false if it already had the value given.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.Action{``0},System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Action,System.Action{``0},System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.Action{``0},System.Func{``0,System.String},System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,System.Boolean,System.Action,System.Action{``0},System.Func{``0,System.String},System.ComponentModel.PropertyChangedEventHandler,System.String)">
+            <summary>
+            Called by inheriting classes to set the value of a property and raise a changed event if it has actually changed. This will take no action if the
+            value of the property is already the value it's being set to, and raise no events. If the value was changed and was previously not null, it is
+            disposed.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the underlying private field to change.</param>
+            <param name="value">The new value of the property.</param>
+            <param name="disposePrevious">If true and the previous value was disposable, it will be disposed.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="validate">A function to validate the new value of the property.</param>
+            <param name="changeHandler">An event handler to handle any property changed events on the target.</param>
+            <param name="propertyName">The name of the property that's changing.</param>
+            <returns>True if the field was changed, false otherwise.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableObject.Set``1(``0@,``0,``0,``0,System.Action,System.Action{``0},System.String)">
+            <summary>
+            Changes the value of a property after checking it's within a given range, and if it changed, raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event.
+            </summary>
+            <typeparam name="TProp">The type of the property being changed.</typeparam>
+            <param name="field">A reference to the backing field for the property.</param>
+            <param name="value">The new value for the property.</param>
+            <param name="min">The minimum permitted value for the property.</param>
+            <param name="max">The maximum permitted value for the property.</param>
+            <param name="onChange">An action to be invoked after the property has changed value.</param>
+            <param name="onChangeWithPrevious">An action to be invoked after the property has changed value, with the previous value passed as a parameter to the action.</param>
+            <param name="propertyName">The name of the property.</param>
+            <returns>True if the property was changed, false if it already held the desired value.</returns>
+        </member>
+        <member name="T:Flynn1179.Observable.SynchronizedDisposableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:Flynn1179.Observable.INotifyDisposed"/> and <see cref="T:Flynn1179.Observable.ISynchronizedObject"/> interfaces.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedDisposableObject.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedDisposableObject"/> class.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedDisposableObject.#ctor(System.Threading.SynchronizationContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedDisposableObject"/> class with the specified context.
+            </summary>
+            <param name="newContext">The <see cref="P:Flynn1179.Observable.SynchronizedDisposableObject.SynchronizationContext"/> used for event invocation.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedDisposableObject.SynchronizationContext">
+            <summary>
+            Gets the synchronization context to raise events on.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.SynchronizedDisposableObservableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:Flynn1179.Observable.INotifyDisposed"/>, <see cref="T:System.ComponentModel.INotifyPropertyChanging"/>, <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and <see cref="T:Flynn1179.Observable.ISynchronizedObject"/> interfaces.
+            </summary>
+            <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedDisposableObservableObject.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedDisposableObservableObject"/> class.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedDisposableObservableObject.#ctor(System.Threading.SynchronizationContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedDisposableObservableObject"/> class with the specified context.
+            </summary>
+            <param name="newContext">The <see cref="P:Flynn1179.Observable.SynchronizedDisposableObservableObject.SynchronizationContext"/> used for event invocation.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedDisposableObservableObject.SynchronizationContext">
+            <summary>
+            Gets the synchronization context to raise events on.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.SynchronizedObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:Flynn1179.Observable.ISynchronizedObject"/> interface.
+            Synchronized objects raise events on their own <see cref="P:Flynn1179.Observable.SynchronizedObject.SynchronizationContext"/>, the <see cref="M:Flynn1179.Observable.Extensions.SafeRaise(System.EventHandler,Flynn1179.Observable.ISynchronizedObject,System.EventArgs)"/> and related overloads handle this.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObject.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObject"/> class.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObject.#ctor(System.Threading.SynchronizationContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObject"/> class with the specified context.
+            </summary>
+            <param name="newContext">The <see cref="P:Flynn1179.Observable.SynchronizedObject.SynchronizationContext"/> used for event invocation.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObject.SynchronizationContext">
+            <summary>
+            Gets the synchronization context to raise events on.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.SynchronizedObservableObject">
+            <summary>
+            Defines a base class for an object that implements the <see cref="T:System.ComponentModel.INotifyPropertyChanging"/>, <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and <see cref="T:Flynn1179.Observable.ISynchronizedObject"/> interfaces.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableObject.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableObject"/> class.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableObject.#ctor(System.Threading.SynchronizationContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableObject"/> class with the specified context.
+            </summary>
+            <param name="newContext">The <see cref="P:Flynn1179.Observable.SynchronizedObservableObject.SynchronizationContext"/> used for event invocation.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableObject.SynchronizationContext">
+            <summary>
+            Gets the synchronization context to raise events on.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.Extensions">
+            <summary>
+            General purpose utility and extension methods.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.EventHandler,System.Object,System.EventArgs)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">Event arguments for the event.</param>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise``1(System.EventHandler{``0},System.Object,``0)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">Event arguments for the event.</param>
+            <typeparam name="T">The type of the event arguments for the event.</typeparam>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.ComponentModel.PropertyChangedEventHandler,System.ComponentModel.INotifyPropertyChanged,System.String)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="propertyName">The name of the property relating to this event.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if sender is not null, and the type of object in the sender does not have the named property.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+            <remarks>For static events, the type raising the event is not passed in to this function, so no check can be performed on whether or not the class raising the event has the static property.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.Collections.Generic.IEnumerable{System.ComponentModel.PropertyChangedEventHandler},System.ComponentModel.INotifyPropertyChanged,System.String)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handlers">A list of <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> to invoke.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="propertyName">The name of the property relating to this event.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if sender is not null, and the type of object in the sender does not have the named property.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+            <remarks>For static events, the type raising the event is not passed in to this function, so no check can be performed on whether or not the class raising the event has the static property.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.ComponentModel.PropertyChangingEventHandler,System.ComponentModel.INotifyPropertyChanging,System.String)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="propertyName">The name of the property relating to this event.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.Collections.Generic.IEnumerable{System.ComponentModel.PropertyChangingEventHandler},System.ComponentModel.INotifyPropertyChanging,System.String)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handlers">A list of <see cref="T:System.ComponentModel.PropertyChangingEventHandler"/> to invoke.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="propertyName">The name of the property relating to this event.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if propertyName is null or an empty string.</exception>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.EventHandler,Flynn1179.Observable.ISynchronizedObject,System.EventArgs)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">Event arguments for the event.</param>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+            <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.SafeRaise(System.Delegate,Flynn1179.Observable.ISynchronizedObject,System.EventArgs)">
+            <summary>
+            Raises an event safely, ensuring that all handlers are called on the proper thread, and any exceptions do not prevent other handlers being called.
+            </summary>
+            <param name="handler">The event to raise.</param>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">Event arguments for the event.</param>
+            <exception cref="T:System.AggregateException">Thrown if any handlers raise exceptions, with the exceptions raised captured in the <see cref="P:System.AggregateException.InnerExceptions"/> property.</exception>
+            <remarks>Temporarily made internal, as the use cases for this class really aren't clear enough to be confident of a suitable implementation of ISynchronizedObject.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.Extensions.ValidatePropertyName(System.Type,System.String,System.String)">
+            <summary>
+            Checks if a property name is valid for a given type.
+            </summary>
+            <param name="type">The type to check the property of.</param>
+            <param name="propertyName">The name of the property to check.</param>
+            <param name="paramName">The name of the parameter the property name was passed by.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the propertyName is not the name of a property on the given type.</exception>
+        </member>
+        <member name="T:Flynn1179.Observable.InternalExtensions">
+            <summary>
+            Defines extension methods internal to this project. Most of these are intended to be in-lined.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.ThrowIfNull(System.Object,System.String)">
+            <summary>
+            Throws an <see cref="T:System.ArgumentNullException"/> if the object is null.
+            </summary>
+            <param name="parameter">The parameter to check.</param>
+            <param name="name">The name of the parameter.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if the object is null.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.ThrowIfNullOrEmpty(System.String,System.String,System.String)">
+            <summary>
+            Throws an <see cref="T:System.ArgumentException"/> if the string is null or empty.
+            </summary>
+            <param name="parameter">The parameter to check.</param>
+            <param name="name">The name of the parameter.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the string is null or empty.</exception>
+            <param name="message">The error message to include in the exception. Defaults to 'Argument out of range'.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.ThrowIfOutOfRange``1(``0,System.String,``0,``0,System.String)">
+            <summary>
+            Throws an <see cref="T:System.ArgumentOutOfRangeException"/> if the parameter is outside the specified range.
+            </summary>
+            <typeparam name="T">The type of parameter to check.</typeparam>
+            <param name="parameter">The parameter to check the value of.</param>
+            <param name="name">The name of the parameter to check.</param>
+            <param name="minimum">The minimum value acceptable as the parameter, inclusive.</param>
+            <param name="maximum">The maximum value acceptable as the parameter, inclusive.</param>
+            <param name="message">The error message to include in the exception. Defaults to 'Argument out of range'.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the parameter is out of range.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.ThrowIfCheckFails``1(``0,System.String,System.Func{``0,System.Boolean},System.String)">
+            <summary>
+            Throws an <see cref="T:System.ArgumentException"/> if the parameter does not meet a given predicate.
+            </summary>
+            <typeparam name="T">The type of the parameter.</typeparam>
+            <param name="parameter">The parameter to check the value of.</param>
+            <param name="name">The name of the parameter to check.</param>
+            <param name="predicate">A predicate to test the parameter against.</param>
+            <param name="message">The message to include in the exception if the check fails.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.ThrowIfCheckFails(System.Object,System.String,System.Boolean,System.String)">
+            <summary>
+            Throws an <see cref="T:System.ArgumentException"/> if the parameter has failed a check.
+            </summary>
+            <param name="parameter">The parameter to check the value of. This is passed as parameter 0 to a string.Format call, passing 'message' as the format string.</param>
+            <param name="name">The name of the parameter to check.</param>
+            <param name="checkPassed">True if an exception should not be raised, false otherwise.</param>
+            <param name="message">The message to include in the exception if the check failed.</param>
+            <remarks>This overload exists where the check is trivial to perform in client code, and doesn't need the complexity of a predicate.</remarks>
+        </member>
+        <member name="M:Flynn1179.Observable.InternalExtensions.GetPropertyValue(System.Object,System.String)">
+            <summary>
+            Get the value of a named property on the target.
+            </summary>
+            <param name="target">The target to find the property on.</param>
+            <param name="propertyName">The name of the property to get the value of.</param>
+            <returns>The value on the named property of the target object.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if the target parameter is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if the propertyName parameter is null or empty.</exception>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableFile">
+            <summary>
+            Represents a file, notifying of changes to the properties of the file.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFile.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.ObservableFile"/> class.
+            </summary>
+            <param name="fileName">The filename to monitor.</param>
+            <exception cref="T:System.ArgumentException">Thrown if the file does not exist.</exception>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFile.FileName">
+            <summary>
+            Gets the name of the file.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFile.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the object.
+            </summary>
+            <param name="disposing">True if the object is disposing, false otherwise.</param>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableFunction`2">
+            <summary>
+            Represents a function with an observable result, that updates whenever a change to the input causes a change.
+            </summary>
+            <typeparam name="T">The type of the function input.</typeparam>
+            <typeparam name="TResult">The result type of the function.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFunction`2.#ctor(System.Func{`0,`1})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.ObservableFunction`2"/> class.
+            </summary>
+            <param name="func">The function to be applied to the input.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`2.Input">
+            <summary>
+            Gets or sets the input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`2.Result">
+            <summary>
+            Gets the result of the function.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableFunction`3">
+            <summary>
+            Represents a function with an observable result, that updates whenever a change to the input causes a change.
+            </summary>
+            <typeparam name="T1">The type of the first function input.</typeparam>
+            <typeparam name="T2">The type of the second function input.</typeparam>
+            <typeparam name="TResult">The result type of the function.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFunction`3.#ctor(System.Func{`0,`1,`2})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.ObservableFunction`3"/> class.
+            </summary>
+            <param name="func">The function to be applied to the input.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`3.Input1">
+            <summary>
+            Gets or sets the first input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`3.Input2">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`3.Result">
+            <summary>
+            Gets the result of the function.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableFunction`4">
+            <summary>
+            Represents a function with an observable result, that updates whenever a change to the input causes a change.
+            </summary>
+            <typeparam name="T1">The type of the first function input.</typeparam>
+            <typeparam name="T2">The type of the second function input.</typeparam>
+            <typeparam name="T3">The type of the third function input.</typeparam>
+            <typeparam name="TResult">The result type of the function.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFunction`4.#ctor(System.Func{`0,`1,`2,`3})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.ObservableFunction`4"/> class.
+            </summary>
+            <param name="func">The function to be applied to the input.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`4.Input1">
+            <summary>
+            Gets or sets the first input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`4.Input2">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`4.Input3">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`4.Result">
+            <summary>
+            Gets the result of the function.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.ObservableFunction`5">
+            <summary>
+            Represents a function with an observable result, that updates whenever a change to the input causes a change.
+            </summary>
+            <typeparam name="T1">The type of the first function input.</typeparam>
+            <typeparam name="T2">The type of the second function input.</typeparam>
+            <typeparam name="T3">The type of the third function input.</typeparam>
+            <typeparam name="T4">The type of the fourth function input.</typeparam>
+            <typeparam name="TResult">The result type of the function.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.ObservableFunction`5.#ctor(System.Func{`0,`1,`2,`3,`4})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.ObservableFunction`5"/> class.
+            </summary>
+            <param name="func">The function to be applied to the input.</param>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`5.Input1">
+            <summary>
+            Gets or sets the first input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`5.Input2">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`5.Input3">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`5.Input4">
+            <summary>
+            Gets or sets the second input for the function.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.ObservableFunction`5.Result">
+            <summary>
+            Gets the result of the function.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.Properties.Resources.PropertyNotFoundError">
+            <summary>
+              Looks up a localized string similar to Property does not exist..
+            </summary>
+        </member>
+        <member name="P:Flynn1179.Observable.Properties.Resources.SafeRaiseExceptionMessage">
+            <summary>
+              Looks up a localized string similar to Errors raised by event handlers.
+            </summary>
+        </member>
+        <member name="T:Flynn1179.Observable.PropertyListener`1">
+            <summary>
+            Represents a class that listens for a property changing on a target object, and invokes the action when it does.
+            </summary>
+            <typeparam name="TPropertyType">The type of the property.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.PropertyListener`1.#ctor(System.ComponentModel.INotifyPropertyChanged,System.String,System.Action{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flynn1179.Observable.PropertyListener`1"/> class.
+            </summary>
+            <param name="target">The target object to listen to.</param>
+            <param name="propertyName">The property to listen for on the target object.</param>
+            <param name="action">The action to be performed when the property changes.</param>
+        </member>
+        <member name="T:Flynn1179.Observable.SynchronizedObservableList`1">
+            <summary>Represents a thread-safe dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed.</summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> class.</summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> class that contains elements copied from the specified collection.</summary>
+            <param name="collection">The collection from which the elements are copied.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.#ctor(System.Threading.SynchronizationContext)">
+            <summary>Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> class with the specified context.</summary>
+            <param name="context">The context used for event invokation.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Threading.SynchronizationContext)">
+            <summary>Initializes a new instance of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> class that contains elements copied from the specified collection with the specified context.</summary>
+            <param name="collection">The collection from which the elements are copied.</param>
+            <param name="context">The context used for event invokation.</param>
+        </member>
+        <member name="E:Flynn1179.Observable.SynchronizedObservableList`1.CollectionChanged">
+            <summary>Occurs when an item is added, removed, changed, moved, or the entire list is refreshed.</summary>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.Count">
+            <summary>Gets the number of elements actually contained in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>The number of elements actually contained in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</returns>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#IsFixedSize">
+            <inheritdoc/>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#Generic#ICollection{T}#IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#ICollection#IsSynchronized">
+            <inheritdoc/>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#ICollection#SyncRoot">
+            <inheritdoc/>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.IsFixedSize">
+            <summary>Gets a value indicating whether the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>true if the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> has a fixed size; otherwise, false.</returns>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.IsReadOnly">
+            <summary>Gets a value indicating whether the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> is read-only.</summary>
+            <returns>true if the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> is read-only; otherwise, false.</returns>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.IsSynchronized">
+            <summary>Gets a value indicating whether access to the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> is synchronized (thread safe).</summary>
+            <returns>true if access to the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> is synchronized (thread safe); otherwise, false.</returns>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.SyncRoot">
+            <summary>Gets an object that can be used to synchronize access to the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>An object that can be used to synchronize access to the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</returns>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.Item(System.Int32)">
+            <summary>Gets or sets the element at the specified index.</summary>
+            <returns>The element at the specified index.</returns>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is equal to or greater than <see cref="P:Flynn1179.Observable.SynchronizedObservableList`1.Count" />. </exception>
+        </member>
+        <member name="P:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#Item(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Add(`0)">
+            <summary>Adds an object to the end of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. </summary>
+            <param name="item">The object to be added to the end of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. The value can be null for reference types.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Adds the elements of the given collection to the end of this list. If required, the capacity of the list is increased to twice the previous capacity or the new size, whichever is larger.
+            </summary>
+            <param name="collection">The collection to add.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.
+            </summary>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.CopyTo(`0[],System.Int32)">
+            <summary>Copies the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> elements to an existing one-dimensional <see cref="T:System.Array" />, starting at the specified array index.</summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array" /> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex" /> is less than zero.</exception>
+            <exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination <paramref name="array" />.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#Add(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Contains(`0)">
+            <summary>Determines whether an element is in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>true if <paramref name="item" /> is found in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />; otherwise, false.</returns>
+            <param name="item">The object to locate in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. The value can be null for reference types.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#Contains(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1" /> for the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</returns>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.IndexOf(`0)">
+            <summary>Searches for the specified object and returns the zero-based index of the first occurrence within the entire <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>The zero-based index of the first occurrence of <paramref name="item" /> within the entire <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />, if found; otherwise, -1.</returns>
+            <param name="item">The object to locate in the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. The value can be null for reference types.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#IndexOf(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Insert(System.Int32,`0)">
+            <summary>Inserts an element into the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" /> at the specified index.</summary>
+            <param name="index">The zero-based index at which <paramref name="item" /> should be inserted.</param>
+            <param name="item">The object to insert. The value can be null for reference types.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is greater than <see cref="P:Flynn1179.Observable.SynchronizedObservableList`1.Count" />.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Inserts the elements of the given collection at a given index. If required, the capacity of the list is increased to twice the previous capacity
+            or the new size, whichever is larger. Ranges may be added to the end of the list by setting index to the List's size.
+            </summary>
+            <param name="index">The index at which to add new items.</param>
+            <param name="collection">Items to add to the list.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Move(System.Int32,System.Int32)">
+            <summary>Moves the item at the specified index to a new location in the collection.</summary>
+            <param name="oldIndex">The zero-based index specifying the location of the item to be moved.</param>
+            <param name="newIndex">The zero-based index specifying the new location of the item.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Remove(`0)">
+            <summary>Removes the first occurrence of a specific object from the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <returns>true if <paramref name="item" /> is successfully removed; otherwise, false.  This method also returns false if <paramref name="item" /> was not found in the original <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</returns>
+            <param name="item">The object to remove from the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />. The value can be null for reference types.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.System#Collections#IList#Remove(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.RemoveAt(System.Int32)">
+            <summary>Removes the element at the specified index of the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1" />.</summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is equal to or greater than <see cref="P:Flynn1179.Observable.SynchronizedObservableList`1.Count" />.</exception>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of elements from this list.
+            </summary>
+            <param name="index">The starting index to remove from.</param>
+            <param name="count">The number of items to remove.</param>
+        </member>
+        <member name="M:Flynn1179.Observable.SynchronizedObservableList`1.Dispose(System.Boolean)">
+            <summary>
+            Releases all resources used by the <see cref="T:Flynn1179.Observable.SynchronizedObservableList`1"/>.
+            </summary>
+            <param name="disposing">Not used.</param>
+        </member>
+    </members>
+</doc>

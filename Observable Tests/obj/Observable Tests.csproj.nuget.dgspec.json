@@ -1,0 +1,134 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj": {}
+  },
+  "projects": {
+    "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj": {
+      "version": "1.0.1-alpha",
+      "restore": {
+        "projectUniqueName": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj",
+        "projectName": "Flynn1179.ObservableLibrary",
+        "projectPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj",
+        "packagesPath": "C:\\Users\\Flynn\\.nuget\\packages\\",
+        "outputPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Flynn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "StyleCop.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.118, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj",
+        "projectName": "Observable Tests",
+        "projectPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\Observable Tests.csproj",
+        "packagesPath": "C:\\Users\\Flynn\\.nuget\\packages\\",
+        "outputPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Flynn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj": {
+                "projectPath": "E:\\Github\\Flynn1179\\ObservableLibrary\\Observable Library\\Observable Library.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

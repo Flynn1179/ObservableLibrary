@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "Observable Tests/1.0.0": {
+        "dependencies": {
+          "Flynn1179.ObservableLibrary": "1.0.1-alpha"
+        },
+        "runtime": {
+          "Observable Tests.dll": {}
+        }
+      },
+      "Flynn1179.ObservableLibrary/1.0.1-alpha": {
+        "runtime": {
+          "Observable Library.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Observable Tests/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Flynn1179.ObservableLibrary/1.0.1-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

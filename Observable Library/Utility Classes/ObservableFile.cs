@@ -11,7 +11,7 @@ namespace Flynn1179.Observable
     /// <summary>
     /// Represents a file, notifying of changes to the properties of the file.
     /// </summary>
-    public class ObservableFile : DisposableObservableObject
+    public class ObservableFile : DisposableObservableObject, IObservableFile
     {
         private readonly FileSystemWatcher watcher;
 

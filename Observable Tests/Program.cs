@@ -1,0 +1,68 @@
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using Flynn1179.Observable;
+
+string filename = Path.GetTempFileName();
+string newFilename = Path.Combine(Path.GetDirectoryName(filename), "Test");
+string thirdFilename = Path.Combine(Path.GetDirectoryName(filename), "Third");
+Console.WriteLine("Changing " + filename + " to " + newFilename);
+ObservableFile observableFile = new ObservableFile(filename);
+observableFile.PropertyChanged += (sender, e) => Console.WriteLine("Detected change" + e.PropertyName);
+Console.WriteLine("Filename currently: " + observableFile.FileName);
+File.Move(filename, newFilename);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("Filename now:" + observableFile.FileName);
+File.Move(newFilename, thirdFilename);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("Filename finally:" + observableFile.FileName);
+File.Delete(thirdFilename);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("Disposed? " + observableFile.IsDisposed);
+
+string pathName = Path.Combine(Path.GetTempPath(), "ObservedFolder");
+Directory.CreateDirectory(pathName);
+string file1 = Path.Combine(pathName, Path.GetRandomFileName());
+string file2 = Path.Combine(pathName, Path.GetRandomFileName());
+string file3 = Path.Combine(pathName, Path.GetRandomFileName());
+File.WriteAllText(file1, "File1");
+File.WriteAllText(file2, "File2");
+ObservableDirectory observableDirectory = new ObservableDirectory(pathName);
+observableDirectory.PropertyChanged += (sender, e) => Console.WriteLine("Folder property change: " + e.PropertyName);
+observableDirectory.CollectionChanged += (sender, e) => Console.WriteLine("Folder content change: " + e.Action + ", " + e);
+observableDirectory.Disposed += (sender, e) => Console.WriteLine("Disposing");
+
+Console.WriteLine("New observable directory has " + observableDirectory.Count + " files");
+Console.WriteLine("File 1 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file1, StringComparison.Ordinal)));
+Console.WriteLine("File 2 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file2, StringComparison.Ordinal)));
+Console.WriteLine("File 3 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file3, StringComparison.Ordinal)));
+File.WriteAllText(file3, "File3");
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("File 1 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file1, StringComparison.Ordinal)));
+Console.WriteLine("File 2 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file2, StringComparison.Ordinal)));
+Console.WriteLine("File 3 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file3, StringComparison.Ordinal)));
+File.Delete(file2);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("File 1 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file1, StringComparison.Ordinal)));
+Console.WriteLine("File 2 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file2, StringComparison.Ordinal)));
+Console.WriteLine("File 3 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file3, StringComparison.Ordinal)));
+string file4 = Path.GetTempFileName();
+File.Move(file4, file2);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("File 1 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file1, StringComparison.Ordinal)));
+Console.WriteLine("File 2 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file2, StringComparison.Ordinal)));
+Console.WriteLine("File 3 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file3, StringComparison.Ordinal)));
+File.Move(file3, file4);
+System.Threading.Thread.Sleep(1000);
+Console.WriteLine("File 1 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file1, StringComparison.Ordinal)));
+Console.WriteLine("File 2 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file2, StringComparison.Ordinal)));
+Console.WriteLine("File 3 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file3, StringComparison.Ordinal)));
+Console.WriteLine("File 4 present: " + observableDirectory.Any(file => string.Equals(file.FileName, file4, StringComparison.Ordinal)));
+
+File.Delete(file1);
+File.Delete(file2);
+File.Delete(file4);
+Directory.Delete(pathName);
+
+Console.ReadKey();
