@@ -35,12 +35,13 @@ namespace Flynn1179.Observable
             {
                 Path = Path.GetDirectoryName(this.fileName),
                 Filter = Path.GetFileName(this.fileName),
-                NotifyFilter = NotifyFilters.FileName,
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Attributes | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.CreationTime | NotifyFilters.Security,
                 EnableRaisingEvents = true,
             };
 
             this.watcher.Renamed += this.HandleWatcherRenamed;
             this.watcher.Deleted += this.HandleWatcherDeleted;
+            this.watcher.Changed += this.HandleWatcherChanged;
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Flynn1179.Observable
                 {
                     this.watcher.Renamed -= this.HandleWatcherRenamed;
                     this.watcher.Deleted -= this.HandleWatcherDeleted;
+                    this.watcher.Changed -= this.HandleWatcherChanged;
                     this.watcher.Dispose();
                 }
             }
@@ -81,6 +83,11 @@ namespace Flynn1179.Observable
         {
             Debug.WriteLine("Detected file deletion, disposing ObservableFile.");
             this.Dispose();
+        }
+
+        private void HandleWatcherChanged(object sender, FileSystemEventArgs e)
+        {
+            Debug.WriteLine("Detected change " + e.ChangeType + " to " + e.FullPath);
         }
     }
 }

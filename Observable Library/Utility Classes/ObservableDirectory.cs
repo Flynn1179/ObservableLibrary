@@ -15,7 +15,7 @@ namespace Flynn1179.Observable
     {
         private readonly FileSystemWatcher watcher;
 
-        private string path;
+        private readonly string path;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableDirectory"/> class.
@@ -54,12 +54,6 @@ namespace Flynn1179.Observable
             this.watcher.Disposed += this.Watcher_Disposed;
         }
 
-        private void Watcher_Disposed(object sender, EventArgs e)
-        {
-            Debug.WriteLine("ObservableDirectory received disposed event");
-            this.Dispose();
-        }
-
         /// <summary>
         /// Disposes of the observable directory.
         /// </summary>
@@ -77,6 +71,7 @@ namespace Flynn1179.Observable
                     //// this.watcher.Renamed += this.Watcher_Renamed;
                     this.watcher.Error -= this.Watcher_Error;
                     this.watcher.Disposed -= this.Watcher_Disposed;
+                    this.watcher.Dispose();
                 }
             }
         }
@@ -121,6 +116,12 @@ namespace Flynn1179.Observable
             Debug.WriteLine("Received change event " + e.ChangeType + ", " + e.FullPath);
 
             // This will be handled by the ObservableFile for now.
+        }
+
+        private void Watcher_Disposed(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ObservableDirectory received disposed event");
+            this.Dispose();
         }
     }
 }
