@@ -11,11 +11,19 @@ namespace Flynn1179.Observable
     /// <summary>
     /// Represents a file, notifying of changes to the properties of the file.
     /// </summary>
-    public class ObservableFile : DisposableObservableObject, IObservableFile
+    public class ObservableFile : DisposableObservableObject, IObservableDirectoryContent
     {
         private readonly FileSystemWatcher watcher;
 
+        private readonly string directory;
+
+        private string path;
+
         private string fileName;
+
+        private string extension;
+
+        private string fileNameWithoutExtension;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableFile"/> class.
@@ -24,33 +32,60 @@ namespace Flynn1179.Observable
         /// <exception cref="ArgumentException">Thrown if the file does not exist.</exception>
         public ObservableFile(string fileName)
         {
-            string actualFileName = Path.GetFullPath(Environment.ExpandEnvironmentVariables(fileName));
-            if (!File.Exists(actualFileName))
-            {
-                throw new ArgumentException("Cannot create an instance of ObservableFile for a filename that does not exist.");
-            }
-
-            this.fileName = actualFileName;
-            this.watcher = new FileSystemWatcher
-            {
-                Path = Path.GetDirectoryName(this.fileName),
-                Filter = Path.GetFileName(this.fileName),
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Attributes | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.CreationTime | NotifyFilters.Security,
-                EnableRaisingEvents = true,
-            };
-
-            this.watcher.Renamed += this.HandleWatcherRenamed;
-            this.watcher.Deleted += this.HandleWatcherDeleted;
-            this.watcher.Changed += this.HandleWatcherChanged;
+            this.FullPath = fileName;
         }
 
         /// <summary>
         /// Gets the name of the file.
         /// </summary>
-        public string FileName
+        public string Name
         {
             get => this.fileName;
             private set => this.Set(ref this.fileName, value);
+        }
+
+        public string Extension
+        {
+            get => this.extension;
+            private set => this.Set(ref this.extension, value);
+        }
+
+        public string FileNameWithoutExtension
+        {
+            get => this.fileNameWithoutExtension;
+            private set => this.Set(ref this.fileNameWithoutExtension, value);
+        }
+
+        public string Directory
+            => this.directory;
+
+        public string FullPath
+        {
+            get => this.path;
+            init
+            {
+                this.path = Path.GetFullPath(Environment.ExpandEnvironmentVariables(value));
+                if (!File.Exists(this.path))
+                {
+                    throw new ArgumentException("Cannot create an instance of ObservableFile for a filename that does not exist.");
+                }
+
+                this.fileName = Path.GetFileName(this.path);
+                this.extension = Path.GetExtension(this.path);
+                this.fileNameWithoutExtension = Path.GetFileNameWithoutExtension(this.path);
+                this.directory = Path.GetDirectoryName(this.path);
+                this.watcher = new FileSystemWatcher
+                {
+                    Path = this.directory,
+                    Filter = this.fileName,
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Attributes | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.CreationTime | NotifyFilters.Security,
+                    EnableRaisingEvents = true,
+                };
+
+                this.watcher.Renamed += this.HandleWatcherRenamed;
+                this.watcher.Deleted += this.HandleWatcherDeleted;
+                this.watcher.Changed += this.HandleWatcherChanged;
+            }
         }
 
         /// <summary>
@@ -75,7 +110,12 @@ namespace Flynn1179.Observable
         private void HandleWatcherRenamed(object sender, RenamedEventArgs e)
         {
             Debug.WriteLine("Detected file rename, from " + e.OldFullPath + " to " + e.FullPath);
-            this.FileName = e.FullPath;
+
+            // Cannot set the property directly, it has an 'init' block.
+            this.Set(ref this.path, e.FullPath, nameof(IObservableDirectoryContent.FullPath));
+            this.Name = Path.GetFileName(this.path);
+            this.FileNameWithoutExtension = Path.GetFileNameWithoutExtension(this.path);
+            this.Extension = Path.GetExtension(this.path);
             this.watcher.Filter = e.Name;
         }
 

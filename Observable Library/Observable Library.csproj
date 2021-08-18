@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Platforms>x64</Platforms>
     <PackageId>Flynn1179.ObservableLibrary</PackageId>
-    <Version>1.0.1-alpha</Version>
+    <Version>1.0.2-alpha</Version>
     <Company />
     <Authors>Ali Flynn</Authors>
 	<Title>Observable Library</Title>
@@ -22,10 +22,12 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
     <PackageReleaseNotes>Added SynchronizedObservableList
 Added ISynchronizedObject and related base classes
+Added ObservableFolder and ObservableFile
+Added ObservableFunction
 Added intellisense.</PackageReleaseNotes>
   </PropertyGroup>
 
